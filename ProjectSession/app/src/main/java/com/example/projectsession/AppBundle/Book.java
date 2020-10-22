@@ -2,13 +2,13 @@ package com.example.projectsession.AppBundle;
 
 public class Book {
 
-    String title, actor, category, description;
+    String title, author, category, description;
     boolean available;
     Double price;
 
-    public Book(String title, String actor, String category, String description, boolean available, Double price) {
+    public Book(String title, String author, String category, String description, boolean available, Double price) {
         this.title = title;
-        this.actor = actor;
+        this.author = author;
         this.category = category;
         this.description = description;
         this.available = available;
@@ -23,12 +23,12 @@ public class Book {
         this.title = title;
     }
 
-    public String getActor() {
-        return actor;
+    public String getauthor() {
+        return author;
     }
 
-    public void setActor(String actor) {
-        this.actor = actor;
+    public void setauthor(String author) {
+        this.author = author;
     }
 
     public String getCategory() {

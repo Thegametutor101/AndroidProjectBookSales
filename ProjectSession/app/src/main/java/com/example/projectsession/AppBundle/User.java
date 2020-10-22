@@ -1,9 +1,12 @@
 package com.example.projectsession.AppBundle;
 
+import java.util.ArrayList;
+
 public class User {
 
     String firstName, lastName, email, phone, password;
     boolean guest;
+    ArrayList<Book> books;
 
     public User(String firstName, String lastName, String email, String phone, String password) {
         this.firstName = firstName;
