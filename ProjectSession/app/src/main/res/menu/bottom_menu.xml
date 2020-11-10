@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/btnMenuUtilisateur"
+        android:icon="@drawable/ic_action_name_user"
+        android:title="Utilisateur"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/btnMenuRecherche"
+        android:icon="@drawable/ic_action_name_research"
+        android:title="Recherche"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/btnMenuLivre"
+        android:icon="@drawable/ic_action_name_book"
+        android:title="Livre"
+        app:showAsAction="always" />
+</menu>

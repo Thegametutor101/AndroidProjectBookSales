@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "ProjectSession"
+rootProject.name = "AndroidProjectBookSales"
