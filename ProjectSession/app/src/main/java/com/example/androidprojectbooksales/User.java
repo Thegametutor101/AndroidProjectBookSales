@@ -1,11 +1,20 @@
 package com.example.androidprojectbooksales;
 
+import com.google.gson.annotations.SerializedName;
+
 public class User {
+
+    @SerializedName("idUser")
     String id;
+    @SerializedName("firstNameUser")
     String firstName;
+    @SerializedName("lastNameUser")
     String lastName;
+    @SerializedName("emailUser")
     String email;
+    @SerializedName("phoneUser")
     String phone;
+    @SerializedName("passwordUser")
     String password;
 
     public User(String id, String firstName, String lastName, String email, String phone, String password) {

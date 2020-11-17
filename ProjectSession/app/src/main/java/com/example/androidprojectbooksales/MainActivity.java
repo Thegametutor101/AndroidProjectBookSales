@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
     AddUser_Fragment addUserFragment;
     Book_Fragment bookFragment;
     AddBook_Fragment addBookFragment;
+    BuyBook_Fragment buyBookFragment;
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         bookFragment= new Book_Fragment();
         addUserFragment = new AddUser_Fragment();
         addBookFragment = new AddBook_Fragment();
+        buyBookFragment = new BuyBook_Fragment();
 
         fragmentManager= getSupportFragmentManager();
         fragmentTransaction=fragmentManager.beginTransaction();
@@ -63,6 +65,11 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
                     case R.id.btnMenuLivre:
                         fragmentTransaction  = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.flFragment,bookFragment);
+                        fragmentTransaction.commit();
+                        return true;
+                    case R.id.btnMenuAcheter:
+                        fragmentTransaction  = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.flFragment,buyBookFragment);
                         fragmentTransaction.commit();
                         return true;
                 }

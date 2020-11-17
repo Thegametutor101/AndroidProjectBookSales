@@ -17,4 +17,9 @@
         android:icon="@drawable/ic_action_name_book"
         android:title="Livre"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/btnMenuAcheter"
+        android:icon="@drawable/ic_action_name_buy"
+        android:title="Acheter un livre"
+        app:showAsAction="always" />
 </menu>

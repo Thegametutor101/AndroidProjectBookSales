@@ -1,15 +1,26 @@
 package com.example.androidprojectbooksales;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Book {
 
+    @SerializedName("id")
     String id;
+    @SerializedName("titleBook")
     String title;
+    @SerializedName("authorBook")
     String author;
+    @SerializedName("categoryBook")
     String category;
+    @SerializedName("summaryBook")
     String summary;
+    @SerializedName("availbleBook")
     int available;
+    @SerializedName("priceBook")
     double price;
+    @SerializedName("ownerBook")
     String owner;
+    @SerializedName("rentedByBook")
     String rentedBy;
 
     public Book(String id, String title, String author, String category, String summary, int available, double price, String owner, String rentedBy) {
