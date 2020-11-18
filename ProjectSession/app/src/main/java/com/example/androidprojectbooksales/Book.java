@@ -6,21 +6,21 @@ public class Book {
 
     @SerializedName("id")
     String id;
-    @SerializedName("titleBook")
+    @SerializedName("title")
     String title;
-    @SerializedName("authorBook")
+    @SerializedName("author")
     String author;
-    @SerializedName("categoryBook")
+    @SerializedName("category")
     String category;
-    @SerializedName("summaryBook")
+    @SerializedName("summary")
     String summary;
-    @SerializedName("availbleBook")
+    @SerializedName("availble")
     int available;
-    @SerializedName("priceBook")
+    @SerializedName("price")
     double price;
-    @SerializedName("ownerBook")
+    @SerializedName("owner")
     String owner;
-    @SerializedName("rentedByBook")
+    @SerializedName("rentedBy")
     String rentedBy;
 
     public Book(String id, String title, String author, String category, String summary, int available, double price, String owner, String rentedBy) {
