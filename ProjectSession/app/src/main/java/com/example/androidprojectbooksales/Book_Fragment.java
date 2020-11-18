@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-
 public class Book_Fragment extends Fragment {
 
     Button btnAddBook, btnModifyBook, btnDeleteBook;
@@ -21,7 +20,6 @@ public class Book_Fragment extends Fragment {
     public Book_Fragment() {
         // Required empty public constructor
     }
-
 
     public interface BookInterface
     {
@@ -36,7 +34,6 @@ public class Book_Fragment extends Fragment {
         bookInterface = (BookInterface)context;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +47,7 @@ public class Book_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.book_fragment, container, false);
-
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -61,7 +56,6 @@ public class Book_Fragment extends Fragment {
         btnAddBook=view.findViewById(R.id.btnAddBook);
         btnModifyBook=view.findViewById(R.id.btnModifyBook);
         btnDeleteBook=view.findViewById(R.id.btnDeleteBook);
-
 
         btnAddBook.setOnClickListener(new View.OnClickListener() {
             @Override

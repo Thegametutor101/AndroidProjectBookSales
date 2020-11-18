@@ -12,7 +12,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements Login_Fragment.LoginInterface, Book_Fragment.BookInterface {
 
-
     BottomNavigationView bottomNav;
 
     Research_Fragment researchFragment;
@@ -24,8 +23,6 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,34 +45,26 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         bottomNav=findViewById(R.id.bottomNav);
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
-                    case R.id.btnMenuUtilisateur:
-                        fragmentTransaction  = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.flFragment,loginFragment);
-                        fragmentTransaction.commit();
-                        return true;
                     case R.id.btnMenuRecherche:
                         fragmentTransaction  = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.flFragment,researchFragment);
                         fragmentTransaction.commit();
                         return true;
-                    case R.id.btnMenuLivre:
+                    case R.id.btnMenuLivres:
                         fragmentTransaction  = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.flFragment,bookFragment);
                         fragmentTransaction.commit();
                         return true;
-                    case R.id.btnMenuAcheter:
+                    case R.id.btnMenuUtilisateur:
                         fragmentTransaction  = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.flFragment,buyBookFragment);
+                        fragmentTransaction.replace(R.id.flFragment,loginFragment);
                         fragmentTransaction.commit();
                         return true;
                 }
                 return false;
-
-
             }
         });
     }
@@ -105,7 +94,4 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         //fragmentTransaction.replace(R.id.flFragment,addUserFragment);
         //fragmentTransaction.commit();
     }
-
-
-
 }

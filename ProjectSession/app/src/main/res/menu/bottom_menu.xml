@@ -3,23 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/btnMenuUtilisateur"
-        android:icon="@drawable/ic_action_name_user"
-        android:title="Utilisateur"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/btnMenuRecherche"
         android:icon="@drawable/ic_action_name_research"
-        android:title="Recherche"
-        app:showAsAction="always" />
+        android:title="@string/mainMenuSearch"
+        app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/btnMenuLivre"
-        android:icon="@drawable/ic_action_name_book"
-        android:title="Livre"
-        app:showAsAction="always" />
+        android:id="@+id/btnMenuLivres"
+        android:icon="@drawable/ic_action_listView"
+        android:title="@string/mainMenuView"
+        app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/btnMenuAcheter"
-        android:icon="@drawable/ic_action_name_buy"
-        android:title="Acheter un livre"
-        app:showAsAction="always" />
+        android:id="@+id/btnMenuUtilisateur"
+        android:icon="@drawable/ic_action_name_user"
+        android:title="@string/mainMenuAccount"
+        app:showAsAction="ifRoom" />
 </menu>
