@@ -9,7 +9,7 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/btnMenuLivres"
-        android:icon="@drawable/ic_action_listView"
+        android:icon="@drawable/ic_action_list_view"
         android:title="@string/mainMenuView"
         app:showAsAction="ifRoom" />
     <item

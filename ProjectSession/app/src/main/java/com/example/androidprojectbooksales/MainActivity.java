@@ -8,18 +8,24 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.androidprojectbooksales.books.AddBook_Fragment;
+import com.example.androidprojectbooksales.user.Login_Fragment;
+import com.example.androidprojectbooksales.user.Profile_Fragment;
+import com.example.androidprojectbooksales.books.BookList_Fragment;
+import com.example.androidprojectbooksales.user.AddUser_Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity implements Login_Fragment.LoginInterface, Book_Fragment.BookInterface {
+public class MainActivity extends AppCompatActivity implements Login_Fragment.LoginInterface, Profile_Fragment.BookInterface {
 
     BottomNavigationView bottomNav;
 
     Research_Fragment researchFragment;
     Login_Fragment loginFragment;
+    BookList_Fragment bookListFragment;
+
     AddUser_Fragment addUserFragment;
-    Book_Fragment bookFragment;
+    Profile_Fragment profileFragment;
     AddBook_Fragment addBookFragment;
-    BuyBook_Fragment buyBookFragment;
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -31,18 +37,17 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
 
         researchFragment = new Research_Fragment();
         loginFragment = new Login_Fragment();
-        bookFragment= new Book_Fragment();
+        profileFragment = new Profile_Fragment();
         addUserFragment = new AddUser_Fragment();
         addBookFragment = new AddBook_Fragment();
-        buyBookFragment = new BuyBook_Fragment();
+        bookListFragment = new BookList_Fragment();
 
-        fragmentManager= getSupportFragmentManager();
-        fragmentTransaction=fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.flFragment,researchFragment);
+        fragmentManager = getSupportFragmentManager();
+        bottomNav = findViewById(R.id.bottomNav);
+        bottomNav.getMenu().getItem(1).setChecked(true);
+        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flFragment,bookListFragment);
         fragmentTransaction.commit();
-
-
-        bottomNav=findViewById(R.id.bottomNav);
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -55,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
                         return true;
                     case R.id.btnMenuLivres:
                         fragmentTransaction  = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.flFragment,bookFragment);
+                        fragmentTransaction.replace(R.id.flFragment,bookListFragment);
                         fragmentTransaction.commit();
                         return true;
                     case R.id.btnMenuUtilisateur:

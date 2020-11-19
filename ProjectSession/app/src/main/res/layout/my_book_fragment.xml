@@ -7,7 +7,7 @@
     android:backgroundTint="@color/colorPrimaryDark"
     android:foregroundTint="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".MyBooks_Fragment">
+    tools:context=".books.MyBooks_Fragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

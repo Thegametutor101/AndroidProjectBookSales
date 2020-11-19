@@ -1,5 +1,7 @@
 package com.example.androidprojectbooksales;
 
+import com.example.androidprojectbooksales.books.Book;
+
 import org.json.JSONObject;
 
 import retrofit2.Call;
