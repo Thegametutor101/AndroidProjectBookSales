@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
@@ -28,7 +29,7 @@ import retrofit2.Response;
 
 public class AddBook_Fragment extends Fragment {
 
-    TextView tvTexte;
+    Button btnBookCover;
     ImageButton btnAdd, btnClear;
     EditText etTitle, etAuthor, etCategory, etSummary, etPrice;
     RadioGroup rgAvailable;
@@ -57,7 +58,6 @@ public class AddBook_Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tvTexte=view.findViewById(R.id.tvTexte);
         etTitle=view.findViewById(R.id.etAddBookTitle);
         etAuthor=view.findViewById(R.id.etAddBookAuthor);
         etCategory=view.findViewById(R.id.etAddBookCategory);
