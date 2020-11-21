@@ -1,9 +1,13 @@
 package com.example.androidprojectbooksales.books;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -21,6 +25,9 @@ import com.example.androidprojectbooksales.R;
 import com.example.androidprojectbooksales.RetrofitInstance;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -67,6 +74,8 @@ public class AddBook_Fragment extends Fragment {
         btnAdd=view.findViewById(R.id.btnAddBookValidate);
         btnClear=view.findViewById(R.id.btnAddBookClear);
 
+        btnBookCover=view.findViewById(R.id.btnBookCover);
+
         rgAvailable=view.findViewById(R.id.rgAddBookAvailable);
 
         rgAvailable.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
@@ -100,6 +109,8 @@ public class AddBook_Fragment extends Fragment {
                 etPrice.setText("");
             }
         });
+
+
     }
 
 
@@ -120,6 +131,70 @@ public class AddBook_Fragment extends Fragment {
             }
         });
     }
+
+
+
+    public void lancerProgramme()
+    {
+        btnBookCover.setVisibility(View.VISIBLE);
+
+        btnBookCover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dispatchTakePictureIntent();
+            }
+        });
+    }
+
+
+
+
+
+    public boolean verifierPermissions()
+    {
+        String[] permissions = {Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+        List<String> listePermissionsADemander = new ArrayList<>();
+
+        for(int i=0; i< permissions.length; i++)
+        {
+            if(ContextCompat.checkSelfPermission(getActivity(),permissions[i]) != PackageManager.PERMISSION_GRANTED)
+            {
+                listePermissionsADemander.add(permissions[i]);
+            }
+        }
+
+        if(listePermissionsADemander.isEmpty())
+            return true;
+        else
+        {
+            ActivityCompat.requestPermissions(getActivity(), listePermissionsADemander.toArray(new String[listePermissionsADemander.size()]),1111 );
+
+            return false;
+        }
+    }
+
+
+ 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        int nbPermissionsRefusees = 0;
+
+        for(int i = 0; i<grantResults.length; i++ )
+        {
+            if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                nbPermissionsRefusees++;
+            }
+        }
+
+        //s'il y a des persmissions qui ne sont pas accordées on l'indique à l'utilisateur
+        //sinon si toutes les permissions sont accordées, on peut rouler le programme
+        if(nbPermissionsRefusees > 0)
+            Toast.makeText(this, "Veuillez accepter les permissions", Toast.LENGTH_LONG).show();
+        else
+            lancerProgramme();
+    }
+
 
 
 }
