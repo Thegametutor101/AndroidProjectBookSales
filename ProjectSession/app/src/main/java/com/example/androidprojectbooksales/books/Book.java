@@ -2,6 +2,8 @@ package com.example.androidprojectbooksales.books;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.lang.reflect.Array;
+
 public class Book {
 
     @SerializedName("id")

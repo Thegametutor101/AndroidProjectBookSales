@@ -3,11 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/btnMenuRecherche"
-        android:icon="@drawable/ic_action_name_research"
-        android:title="@string/mainMenuSearch"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/btnMenuLivres"
         android:icon="@drawable/ic_action_list_view"
         android:title="@string/mainMenuView"
