@@ -1,15 +1,20 @@
 package com.example.androidprojectbooksales.books;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +31,11 @@ import com.example.androidprojectbooksales.RetrofitInstance;
 
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -141,13 +150,48 @@ public class AddBook_Fragment extends Fragment {
         btnBookCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dispatchTakePictureIntent();
+                lancerCamera();
             }
         });
     }
 
+    private void lancerCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // on s'assure que l'activité de la camera existe bel et bien
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            // on crée le fichier devant recevoir la photo
+            File fichierPhoto = null;
+            try {
+                fichierPhoto = creationFichierPhoto();
+            } catch (IOException ex) {
+                // gestion d'erreur eventuelle lors de la création du fichier
+            }
+            // on continue si le fichier est créé correctement
+            if (fichierPhoto != null) {
+                Uri photoURI = FileProvider.getUriForFile( getActivity(),
+                        "com.example.androidprojectbooksales",
+                        fichierPhoto);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, 1);
+            }
+        }
+    }
 
+    private File creationFichierPhoto() throws IOException {
+        // un nom aléatoire sera créé en utilisant la date du système
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* dossier */
+        );
 
+        // on retient le chemin du fichier ainsi créé. CurrentPhotoPath est déclaré en global
+        String currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
 
 
     public boolean verifierPermissions()
@@ -175,7 +219,6 @@ public class AddBook_Fragment extends Fragment {
     }
 
 
- 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         int nbPermissionsRefusees = 0;
@@ -187,13 +230,12 @@ public class AddBook_Fragment extends Fragment {
             }
         }
 
-        //s'il y a des persmissions qui ne sont pas accordées on l'indique à l'utilisateur
-        //sinon si toutes les permissions sont accordées, on peut rouler le programme
         if(nbPermissionsRefusees > 0)
-            Toast.makeText(this, "Veuillez accepter les permissions", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Veuillez accepter les permissions", Toast.LENGTH_LONG).show();
         else
             lancerProgramme();
     }
+
 
 
 
