@@ -3,6 +3,7 @@ package com.example.androidprojectbooksales;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,14 +30,8 @@ public class AdapterItemBook extends RecyclerView.Adapter<AdapterItemBook.BookVi
 
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
-//        Product p = productList.get(position);
-//        holder.tvName.setText(p.getName());
-//        holder.tvPrice.setText(p.getPrice() + " $");
-//        if (p.isAvailable()) {
-//            holder.tvAvailable.setText("En Stock");
-//        } else {
-//            holder.tvAvailable.setText("Rupture de Stock");
-//        }
+        Book p = bookList.get(position);
+        holder.tvBookName.setText(p.getTitle());
     }
 
     @Override
@@ -50,20 +45,10 @@ public class AdapterItemBook extends RecyclerView.Adapter<AdapterItemBook.BookVi
     }
 
     public class BookViewHolder extends RecyclerView.ViewHolder {
-//        TextView tvName, tvPrice, tvAvailable;
+        TextView tvBookName;
         public BookViewHolder(@NonNull View itemView) {
             super(itemView);
-//            tvName = itemView.findViewById(R.id.tvName);
-//            tvPrice = itemView.findViewById(R.id.tvPrice);
-//            tvAvailable = itemView.findViewById(R.id.tvAvailable);
-//
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    String name = productList.get(getLayoutPosition()).getName();
-//                    Toast.makeText(itemView.getContext(), name, Toast.LENGTH_LONG).show();
-//                }
-//            });
+            tvBookName = itemView.findViewById(R.id.tvBookName);
         }
     }
 }

@@ -2,7 +2,10 @@ package com.example.androidprojectbooksales;
 
 import com.example.androidprojectbooksales.books.Book;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -41,7 +44,11 @@ public interface InterfaceServeur {
 
     @POST("Management/loadBooks.php")
     @FormUrlEncoded
-    Call<JSONObject> loadBooks(@Field("searchValue") String searchValue,@Field("searchFilter") String searchFilter, @Field("searchFilter") String searchSort);
+    Call<List<Book>> loadBooks(@Field("mobile") String mobile);
+
+    @POST("Management/loadBooks.php")
+    @FormUrlEncoded
+    Call<JSONObject> loadBooksSearch(@Field("searchValue") String searchValue, @Field("searchFilter") String searchFilter, @Field("searchFilter") String searchSort);
 
     @POST("Management/login.php")
     @FormUrlEncoded

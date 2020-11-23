@@ -14,8 +14,8 @@ public class Book {
     String author;
     @SerializedName("category")
     String category;
-    @SerializedName("summary")
-    String summary;
+    @SerializedName("description")
+    String description;
     @SerializedName("availble")
     int available;
     @SerializedName("price")
@@ -25,24 +25,23 @@ public class Book {
     @SerializedName("rentedBy")
     String rentedBy;
 
-    public Book(String id, String title, String author, String category, String summary, int available, double price, String owner, String rentedBy) {
+    public Book(String id, String title, String author, String category, String description, int available, double price, String owner, String rentedBy) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.category = category;
-        this.summary = summary;
+        this.description = description;
         this.available = available;
         this.price = price;
         this.owner = owner;
         this.rentedBy = rentedBy;
     }
 
-    public Book(String title, String author, String category, String summary, int available, double price, String owner, String rentedBy) {
-        this.id = id;
+    public Book(String title, String author, String category, String description, int available, double price, String owner, String rentedBy) {
         this.title = title;
         this.author = author;
         this.category = category;
-        this.summary = summary;
+        this.description = description;
         this.available = available;
         this.price = price;
         this.owner = owner;
@@ -81,12 +80,12 @@ public class Book {
         this.category = category;
     }
 
-    public String getSummary() {
-        return summary;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getAvailable() {
