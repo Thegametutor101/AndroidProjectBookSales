@@ -5,17 +5,24 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.androidprojectbooksales.AdapterItemBook;
 import com.example.androidprojectbooksales.InterfaceServeur;
 import com.example.androidprojectbooksales.R;
 import com.example.androidprojectbooksales.RetrofitInstance;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,6 +32,9 @@ import retrofit2.http.Field;
 
 public class BookList_Fragment extends Fragment {
 
+    RecyclerView rvBookList;
+    AdapterItemBook adapter;
+    List<Book> bookList;
 
     public BookList_Fragment() {
         // Required empty public constructor
@@ -36,6 +46,7 @@ public class BookList_Fragment extends Fragment {
         if (getArguments() != null) {
 
         }
+
     }
 
     @Override
@@ -48,24 +59,29 @@ public class BookList_Fragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        rvBookList = view.findViewById(R.id.rvBookList);
+        rvBookList.setHasFixedSize(true);
+        rvBookList.setLayoutManager(new LinearLayoutManager(view.getContext()));
         getBooks();
     }
 
     public void getBooks(){
         InterfaceServeur server = RetrofitInstance.getInstance().create(InterfaceServeur.class);
-        Call<JSONObject> loadBooks = server.loadBooks("", "", "");
+        Call<List<Book>> loadBooks = server.loadBooks("y");
 
-
-        loadBooks.enqueue(new Callback<JSONObject>() {
+        loadBooks.enqueue(new Callback<List<Book>>() {
             @Override
-            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
-                Toast.makeText(getActivity(),"Bienvenue", Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
+                Toast.makeText(getActivity(),"book: ", Toast.LENGTH_SHORT).show();
+                List<Book> lines = response.body();
+                adapter = new AdapterItemBook(lines);
+                rvBookList.setAdapter(adapter);
             }
 
             @Override
-            public void onFailure(Call<JSONObject> call, Throwable t) {
+            public void onFailure(Call<List<Book>> call, Throwable t) {
                 Toast.makeText(getActivity(),"Erreur au chargement des livres", Toast.LENGTH_SHORT).show();
-//                System.exit(0);
+                System.exit(0);
             }
         });
     }
