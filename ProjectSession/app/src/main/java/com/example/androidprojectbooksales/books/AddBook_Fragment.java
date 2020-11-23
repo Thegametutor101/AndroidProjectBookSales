@@ -22,14 +22,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.androidprojectbooksales.InterfaceServeur;
 import com.example.androidprojectbooksales.R;
 import com.example.androidprojectbooksales.RetrofitInstance;
-
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;

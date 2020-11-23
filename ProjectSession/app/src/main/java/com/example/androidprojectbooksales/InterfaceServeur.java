@@ -20,7 +20,7 @@ public interface InterfaceServeur {
 
     @POST("Management/addUser.php")
     @FormUrlEncoded
-    Call<Void> addUser(@Field("firstName") String firstNameUser,@Field("lastName") String lastNameUser,@Field("email") String emailUser,@Field("phone") String phoneUser, @Field("password") String passwordUser);
+    Call<Void> addUser(@Field("mobile") String mobile,@Field("firstName") String firstNameUser,@Field("lastName") String lastNameUser,@Field("email") String emailUser,@Field("phone") String phoneUser, @Field("password") String passwordUser);
 
     @POST("Management/deleteBook.php")
     @FormUrlEncoded
@@ -70,7 +70,5 @@ public interface InterfaceServeur {
     @FormUrlEncoded
     Call<JSONObject> updateUser(@Field("firstName") String firstNameUser,@Field("lastName") String lastNameUser,@Field("email") String emailUser,@Field("phone") String phoneUser, @Field("password") String passwordUser);
 
-
-    //Je n'ai pas mis udateProfile pour l'instant
 
 }
