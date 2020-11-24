@@ -19,6 +19,13 @@ import com.example.androidprojectbooksales.InterfaceServeur;
 import com.example.androidprojectbooksales.R;
 import com.example.androidprojectbooksales.RetrofitInstance;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,6 +38,8 @@ public class Login_Fragment extends Fragment {
     LoginInterface loginInterface;
     EditText etEmail, etPassword;
 
+
+
     public Login_Fragment() {
         // Required empty public constructor
     }
@@ -38,6 +47,8 @@ public class Login_Fragment extends Fragment {
     public interface LoginInterface
     {
         void goToAddUserFragment();
+        void  setLoginInfo(int idUser);
+        void goToProfileFragment();
     }
 
     @Override
@@ -107,9 +118,8 @@ public class Login_Fragment extends Fragment {
         loginCall.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                String test=response.toString();
-                Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(getActivity(),"Utilisateur connecté", Toast.LENGTH_SHORT).show();
+                loginInterface.setLoginInfo(Integer.parseInt(response.body()));
+                loginInterface.goToProfileFragment();
             }
 
             @Override

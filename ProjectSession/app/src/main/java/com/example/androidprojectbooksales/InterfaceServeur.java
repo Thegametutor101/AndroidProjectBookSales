@@ -1,10 +1,13 @@
 package com.example.androidprojectbooksales;
 
 import com.example.androidprojectbooksales.books.Book;
+import com.example.androidprojectbooksales.user.User;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -53,7 +56,7 @@ public interface InterfaceServeur {
 
     @POST("Management/login.php")
     @FormUrlEncoded
-    Call<String> login(@Field("mobile") String mobile,@Field("email") String emailUser,@Field("password") String passwordUser);
+    Call<String> login(@Field("mobile") String mobile, @Field("email") String emailUser, @Field("password") String passwordUser);
 
     @POST("Management/rentBook.php")
     @FormUrlEncoded

@@ -50,7 +50,7 @@
             android:ems="10"
             android:gravity="center|center_horizontal|center_vertical"
             android:inputType="textPersonName"
-            android:text="exemple@gmail.com"
+            android:text="Admin@gmail.com"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -82,6 +82,7 @@
             android:ems="10"
             android:gravity="center|center_horizontal|center_vertical"
             android:inputType="textPassword"
+            android:text="Admin"
             android:textSize="18sp" />
     </LinearLayout>
 

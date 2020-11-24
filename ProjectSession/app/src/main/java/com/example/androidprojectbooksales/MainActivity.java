@@ -28,9 +28,13 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
     Profile_Fragment profileFragment;
     AddBook_Fragment addBookFragment;
 
+
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
+
+    SharedPreferences pref ;
+    SharedPreferences.Editor editor;
 
 
     @Override
@@ -38,11 +42,11 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences pref = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
+        pref= getPreferences(MODE_PRIVATE);
+        editor= pref.edit();
 
         editor.putBoolean("connected", false);
-        editor.putInt("idUser", 0);
+        editor.putInt("idUser", -1);
         editor.commit();
 
         researchFragment = new Research_Fragment();
@@ -54,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
 
         fragmentManager = getSupportFragmentManager();
         bottomNav = findViewById(R.id.bottomNav);
-        //bottomNav.getMenu().getItem(1).setChecked(true);
         fragmentTransaction  = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment,bookListFragment);
         fragmentTransaction.commit();
@@ -97,6 +100,13 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
     }
 
 
+    public void goToProfileFragment(){
+        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flFragment,profileFragment);
+        fragmentTransaction.commit();
+    }
+
+
     public void goToModifyBookFragment(){
         //fragmentTransaction  = fragmentManager.beginTransaction();
         //fragmentTransaction.replace(R.id.flFragment,addUserFragment);
@@ -109,4 +119,20 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         //fragmentTransaction.replace(R.id.flFragment,addUserFragment);
         //fragmentTransaction.commit();
     }
+
+
+    public void setLoginInfo(int idUser){
+        editor.putBoolean("connected", true);
+        editor.putInt("idUser", idUser);
+        editor.commit();
+    }
+
+    public int getIdUser(){
+        return pref.getInt("idUser",-1);
+    }
+
+    public boolean getConnectedUser(){
+        return pref.getBoolean("connected", false);
+    }
+
 }
