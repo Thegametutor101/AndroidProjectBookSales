@@ -85,7 +85,7 @@ public class AddUser_Fragment extends Fragment {
 
     public void addUser(String fisrtNameUser,String lastNameUser,String emailUser,String phoneUser, String passwordUser){
         InterfaceServeur serveur = RetrofitInstance.getInstance().create(InterfaceServeur.class);
-        Call<Void> addUserCall = serveur.addUser(fisrtNameUser,lastNameUser,emailUser,phoneUser,passwordUser);
+        Call<Void> addUserCall = serveur.addUser("y",fisrtNameUser,lastNameUser,emailUser,phoneUser,passwordUser);
 
 
         addUserCall.enqueue(new Callback<Void>() {

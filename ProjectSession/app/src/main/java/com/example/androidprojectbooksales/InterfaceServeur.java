@@ -1,15 +1,19 @@
 package com.example.androidprojectbooksales;
 
 import com.example.androidprojectbooksales.books.Book;
+import com.example.androidprojectbooksales.user.User;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface InterfaceServeur {
@@ -20,7 +24,7 @@ public interface InterfaceServeur {
 
     @POST("Management/addUser.php")
     @FormUrlEncoded
-    Call<Void> addUser(@Field("firstName") String firstNameUser,@Field("lastName") String lastNameUser,@Field("email") String emailUser,@Field("phone") String phoneUser, @Field("password") String passwordUser);
+    Call<Void> addUser(@Field("mobile") String mobile,@Field("firstName") String firstNameUser,@Field("lastName") String lastNameUser,@Field("email") String emailUser,@Field("phone") String phoneUser, @Field("password") String passwordUser);
 
     @POST("Management/deleteBook.php")
     @FormUrlEncoded
@@ -52,7 +56,7 @@ public interface InterfaceServeur {
 
     @POST("Management/login.php")
     @FormUrlEncoded
-    Call<JSONObject> login(@Field("email") String emailUser,@Field("password") String passwordUser);
+    Call<String> login(@Field("mobile") String mobile, @Field("email") String emailUser, @Field("password") String passwordUser);
 
     @POST("Management/rentBook.php")
     @FormUrlEncoded
@@ -70,7 +74,5 @@ public interface InterfaceServeur {
     @FormUrlEncoded
     Call<JSONObject> updateUser(@Field("firstName") String firstNameUser,@Field("lastName") String lastNameUser,@Field("email") String emailUser,@Field("phone") String phoneUser, @Field("password") String passwordUser);
 
-
-    //Je n'ai pas mis udateProfile pour l'instant
 
 }
