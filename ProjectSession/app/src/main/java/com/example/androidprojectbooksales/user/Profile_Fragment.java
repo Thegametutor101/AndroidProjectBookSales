@@ -1,6 +1,8 @@
 package com.example.androidprojectbooksales.user;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,8 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.androidprojectbooksales.R;
+
+import java.io.File;
 
 public class Profile_Fragment extends Fragment {
 
@@ -55,9 +60,16 @@ public class Profile_Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        btnAddBook=view.findViewById(R.id.btnAddBook);
-        btnModifyBook=view.findViewById(R.id.btnModifyBook);
-        btnDeleteBook=view.findViewById(R.id.btnDeleteBook);
+        btnAddBook = view.findViewById(R.id.btnAddBook);
+        btnModifyBook = view.findViewById(R.id.btnModifyBook);
+        btnDeleteBook = view.findViewById(R.id.btnDeleteBook);
+
+        File imgFile = new  File("http://206.167.140.56:8080/A2020/420505RI/Equipe_6/AppBundle/ressources/userPictures/defaultUserProfile.png");
+        if(imgFile.exists()){
+            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            ImageView imgProfilePicture = (ImageView) view.findViewById(R.id.imgProfilePicture);
+            imgProfilePicture.setImageBitmap(myBitmap);
+        }
 
         btnAddBook.setOnClickListener(new View.OnClickListener() {
             @Override

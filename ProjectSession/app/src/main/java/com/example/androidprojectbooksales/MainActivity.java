@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -18,7 +20,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity implements Login_Fragment.LoginInterface, Profile_Fragment.BookInterface {
 
     BottomNavigationView bottomNav;
-
     Research_Fragment researchFragment;
     Login_Fragment loginFragment;
     BookList_Fragment bookListFragment;
@@ -53,20 +54,21 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
-//                    case R.id.btnMenuRecherche:
-//                        fragmentTransaction  = fragmentManager.beginTransaction();
-//                        fragmentTransaction.replace(R.id.flFragment,researchFragment);
-//                        fragmentTransaction.commit();
-//                        return true;
                     case R.id.btnMenuLivres:
                         fragmentTransaction  = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.flFragment,bookListFragment);
                         fragmentTransaction.commit();
                         return true;
                     case R.id.btnMenuUtilisateur:
-                        fragmentTransaction  = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.flFragment,loginFragment);
-                        fragmentTransaction.commit();
+//                        if (loggedUser == 0) {
+                            fragmentTransaction  = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.flFragment,loginFragment);
+                            fragmentTransaction.commit();
+//                        } else {
+//                            fragmentTransaction  = fragmentManager.beginTransaction();
+//                            fragmentTransaction.replace(R.id.flFragment,profileFragment);
+//                            fragmentTransaction.commit();
+//                        }
                         return true;
                 }
                 return false;
