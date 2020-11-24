@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -30,10 +31,19 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences pref = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+
+        editor.putBoolean("connected", false);
+        editor.putInt("idUser", 0);
+        editor.commit();
 
         researchFragment = new Research_Fragment();
         loginFragment = new Login_Fragment();
@@ -44,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
 
         fragmentManager = getSupportFragmentManager();
         bottomNav = findViewById(R.id.bottomNav);
-        bottomNav.getMenu().getItem(1).setChecked(true);
+        //bottomNav.getMenu().getItem(1).setChecked(true);
         fragmentTransaction  = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment,bookListFragment);
         fragmentTransaction.commit();

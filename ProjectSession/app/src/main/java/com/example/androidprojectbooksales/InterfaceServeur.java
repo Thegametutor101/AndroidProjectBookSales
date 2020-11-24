@@ -10,6 +10,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface InterfaceServeur {
@@ -52,7 +53,7 @@ public interface InterfaceServeur {
 
     @POST("Management/login.php")
     @FormUrlEncoded
-    Call<JSONObject> login(@Field("email") String emailUser,@Field("password") String passwordUser);
+    Call<String> login(@Field("mobile") String mobile,@Field("email") String emailUser,@Field("password") String passwordUser);
 
     @POST("Management/rentBook.php")
     @FormUrlEncoded
