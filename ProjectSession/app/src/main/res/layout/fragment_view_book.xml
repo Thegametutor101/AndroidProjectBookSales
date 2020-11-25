@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".books.ViewBook_Fragment">
+
+    <ImageView
+        android:id="@+id/imgBookCover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="0.8"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="0.3">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="0.3"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvBookTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:ellipsize="none"
+                android:fontFamily="sans-serif-black"
+                android:maxLines="100"
+                android:scrollHorizontally="false"
+                android:text="TextView"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvBookAuthor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:ellipsize="none"
+                android:fontFamily="sans-serif-black"
+                android:maxLines="100"
+                android:scrollHorizontally="false"
+                android:text="TextView"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvBookCategory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:ellipsize="none"
+                android:fontFamily="sans-serif-black"
+                android:maxLines="100"
+                android:scrollHorizontally="false"
+                android:text="TextView"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvBookDescription"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="0.2"
+                android:ellipsize="none"
+                android:fontFamily="sans-serif-black"
+                android:maxLines="100"
+                android:scrollHorizontally="false"
+                android:text="TextView"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.9"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvBookPrice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:paddingTop="20dp"
+            android:paddingRight="10dp"
+            android:shadowColor="#FFFFFF"
+            android:text="TextView"
+            android:textAlignment="textEnd"
+            android:textColor="#FF5151"
+            android:textColorHighlight="#5E5E5E"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7"
+            android:background="#FFFFFF"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="Acheter"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+</LinearLayout>

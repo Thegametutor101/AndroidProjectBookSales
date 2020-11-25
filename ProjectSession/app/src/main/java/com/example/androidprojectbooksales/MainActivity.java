@@ -5,19 +5,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.androidprojectbooksales.books.AddBook_Fragment;
+import com.example.androidprojectbooksales.books.ViewBook_Fragment;
 import com.example.androidprojectbooksales.user.Login_Fragment;
 import com.example.androidprojectbooksales.user.Profile_Fragment;
 import com.example.androidprojectbooksales.books.BookList_Fragment;
 import com.example.androidprojectbooksales.user.AddUser_Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.squareup.picasso.Picasso;
 
-public class MainActivity extends AppCompatActivity implements Login_Fragment.LoginInterface, Profile_Fragment.BookInterface {
+public class MainActivity extends AppCompatActivity implements Login_Fragment.LoginInterface, Profile_Fragment.UserInterface {
 
     BottomNavigationView bottomNav;
     Research_Fragment researchFragment;
@@ -27,27 +36,27 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
     AddUser_Fragment addUserFragment;
     Profile_Fragment profileFragment;
     AddBook_Fragment addBookFragment;
+    ViewBook_Fragment viewBook;
 
+    ViewBookBroadcastReceiver viewBookBroadcastReceiver;
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
-
     SharedPreferences pref ;
     SharedPreferences.Editor editor;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        pref= getPreferences(MODE_PRIVATE);
-        editor= pref.edit();
+        pref = getPreferences(MODE_PRIVATE);
+        editor = pref.edit();
 
         editor.putBoolean("connected", false);
         editor.putInt("idUser", -1);
-        editor.commit();
+        editor.apply();
 
         researchFragment = new Research_Fragment();
         loginFragment = new Login_Fragment();
@@ -55,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         addUserFragment = new AddUser_Fragment();
         addBookFragment = new AddBook_Fragment();
         bookListFragment = new BookList_Fragment();
+        viewBookBroadcastReceiver = new ViewBookBroadcastReceiver();
 
         fragmentManager = getSupportFragmentManager();
         bottomNav = findViewById(R.id.bottomNav);
@@ -72,20 +82,40 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
                         fragmentTransaction.commit();
                         return true;
                     case R.id.btnMenuUtilisateur:
-//                        if (loggedUser == 0) {
+                        if (getIdUser() == -1) {
                             fragmentTransaction  = fragmentManager.beginTransaction();
                             fragmentTransaction.replace(R.id.flFragment,loginFragment);
                             fragmentTransaction.commit();
-//                        } else {
-//                            fragmentTransaction  = fragmentManager.beginTransaction();
-//                            fragmentTransaction.replace(R.id.flFragment,profileFragment);
-//                            fragmentTransaction.commit();
-//                        }
+                        } else {
+                            fragmentTransaction  = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.flFragment,profileFragment);
+                            fragmentTransaction.commit();
+                        }
                         return true;
                 }
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter("com.example.androidprojectbooksales.VIEW_BOOK");
+        this.registerReceiver(viewBookBroadcastReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(viewBookBroadcastReceiver);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.search_menu, menu);
+        return true;
     }
 
     public void goToAddUserFragment(){
@@ -104,6 +134,13 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
     public void goToProfileFragment(){
         fragmentTransaction  = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment,profileFragment);
+        fragmentTransaction.commit();
+    }
+
+    public void goToViewBook(String id){
+        viewBook = new ViewBook_Fragment(id);
+        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flFragment,viewBook);
         fragmentTransaction.commit();
     }
 
@@ -132,8 +169,16 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         return pref.getInt("idUser",-1);
     }
 
-    public boolean getConnectedUser(){
+    public boolean isLoggedIn(){
         return pref.getBoolean("connected", false);
     }
 
+    public class ViewBookBroadcastReceiver extends BroadcastReceiver
+    {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String id = intent.getStringExtra("id");
+            goToViewBook(id);
+        }
+    }
 }

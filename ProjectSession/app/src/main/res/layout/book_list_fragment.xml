@@ -22,33 +22,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="15dp"
-                android:layout_weight="0.85"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/editTextTextPersonName"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center|center_horizontal|center_vertical"
-                    android:layout_weight="0.2"
-                    android:ems="10"
-                    android:inputType="textPersonName" />
-
-                <ImageButton
-                    android:id="@+id/btnSearch"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center|center_horizontal|center_vertical"
-                    android:layout_weight="0.8"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:src="@drawable/ic_action_name_research" />
-
-            </LinearLayout>
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvBookList"
                 android:layout_width="match_parent"

@@ -106,20 +106,26 @@ public class Login_Fragment extends Fragment {
                 etPassword.setText("");
             }
         });
-
     }
-
 
     public void login(String email,String password){
         InterfaceServeur serveur = RetrofitInstance.getInstance().create(InterfaceServeur.class);
         Call<String> loginCall = serveur.login("y",email,password);
 
-
         loginCall.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                loginInterface.setLoginInfo(Integer.parseInt(response.body()));
-                loginInterface.goToProfileFragment();
+                if (response.body() == "no") {
+                    Toast.makeText(getActivity(),"Mot de passe ou Courriel invalide", Toast.LENGTH_SHORT).show();
+                } else if (response.body() == "not email") {
+                    Toast.makeText(getActivity(),"Veuillex entrer un courriel valide", Toast.LENGTH_SHORT).show();
+                } else if (response.body() == "error") {
+                    Toast.makeText(getActivity(),"Une erreur est survenue, veuillez réessayer", Toast.LENGTH_SHORT).show();
+                } else {
+                    assert response.body() != null;
+                    loginInterface.setLoginInfo(Integer.parseInt(response.body()));
+                    loginInterface.goToProfileFragment();
+                }
             }
 
             @Override

@@ -32,7 +32,7 @@ public interface InterfaceServeur {
 
     @POST("Management/getBook.php")
     @FormUrlEncoded
-    Call<Book> getBook(@Field("id") String idBook);
+    Call<Book> getBook(@Field("mobile") String mobile, @Field("id") String idBook);
 
     @POST("Management/getMyBook.php")
     @FormUrlEncoded

@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,23 +19,18 @@ import com.example.androidprojectbooksales.InterfaceServeur;
 import com.example.androidprojectbooksales.R;
 import com.example.androidprojectbooksales.RetrofitInstance;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Field;
 
 
 public class BookList_Fragment extends Fragment {
 
-    ImageButton btnSearch;
     RecyclerView rvBookList;
     AdapterItemBook adapter;
-    List<Book> bookList;
 
     public BookList_Fragment() {
         // Required empty public constructor
@@ -48,7 +42,6 @@ public class BookList_Fragment extends Fragment {
         if (getArguments() != null) {
 
         }
-
     }
 
     @Override
@@ -61,7 +54,6 @@ public class BookList_Fragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        btnSearch = view.findViewById(R.id.btnSearch);
         rvBookList = view.findViewById(R.id.rvBookList);
         rvBookList.setHasFixedSize(true);
         rvBookList.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -75,9 +67,14 @@ public class BookList_Fragment extends Fragment {
         loadBooks.enqueue(new Callback<List<Book>>() {
             @Override
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
-                Toast.makeText(getActivity(),"book: ", Toast.LENGTH_SHORT).show();
                 List<Book> lines = response.body();
-                adapter = new AdapterItemBook(lines);
+                List<Book> availableBooks = new ArrayList<Book>();
+                for (Book book: lines) {
+                    if (book.getAvailable() == 1) {
+                        availableBooks.add(book);
+                    }
+                }
+                adapter = new AdapterItemBook(availableBooks);
                 rvBookList.setAdapter(adapter);
             }
 
