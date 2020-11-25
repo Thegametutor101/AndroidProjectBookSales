@@ -72,15 +72,15 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
                         fragmentTransaction.commit();
                         return true;
                     case R.id.btnMenuUtilisateur:
-//                        if (loggedUser == 0) {
+                       if (getConnectedUser() == true) {
                             fragmentTransaction  = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.flFragment,loginFragment);
+                            fragmentTransaction.replace(R.id.flFragment,profileFragment);
                             fragmentTransaction.commit();
-//                        } else {
-//                            fragmentTransaction  = fragmentManager.beginTransaction();
-//                            fragmentTransaction.replace(R.id.flFragment,profileFragment);
-//                            fragmentTransaction.commit();
-//                        }
+                      } else {
+                           fragmentTransaction  = fragmentManager.beginTransaction();
+                           fragmentTransaction.replace(R.id.flFragment,loginFragment);
+                           fragmentTransaction.commit();
+                       }
                         return true;
                 }
                 return false;
