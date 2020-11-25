@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,16 +12,11 @@
     tools:context=".user.Profile_Fragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/tvBookTitle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center|center_horizontal|center_vertical"
-        android:layout_margin="15dp"
-        android:gravity="center|center_horizontal|center_vertical"
-        android:padding="15dp"
-        android:text="Mes livres"
-        android:textSize="36sp" />
+    <ImageView
+        android:id="@+id/imgProfilePicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:src="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/btnAddBook"

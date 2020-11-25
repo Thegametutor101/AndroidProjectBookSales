@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.androidprojectbooksales.AdapterItemBook;
@@ -32,6 +33,7 @@ import retrofit2.http.Field;
 
 public class BookList_Fragment extends Fragment {
 
+    ImageButton btnSearch;
     RecyclerView rvBookList;
     AdapterItemBook adapter;
     List<Book> bookList;
@@ -59,6 +61,7 @@ public class BookList_Fragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        btnSearch = view.findViewById(R.id.btnSearch);
         rvBookList = view.findViewById(R.id.rvBookList);
         rvBookList.setHasFixedSize(true);
         rvBookList.setLayoutManager(new LinearLayoutManager(view.getContext()));
