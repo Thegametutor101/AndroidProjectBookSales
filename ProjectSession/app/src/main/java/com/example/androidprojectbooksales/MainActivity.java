@@ -66,11 +66,6 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
-//                    case R.id.btnMenuRecherche:
-//                        fragmentTransaction  = fragmentManager.beginTransaction();
-//                        fragmentTransaction.replace(R.id.flFragment,researchFragment);
-//                        fragmentTransaction.commit();
-//                        return true;
                     case R.id.btnMenuLivres:
                         fragmentTransaction  = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.flFragment,bookListFragment);
