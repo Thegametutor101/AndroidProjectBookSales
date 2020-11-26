@@ -54,4 +54,14 @@
         android:text="Supprimer un livre"
         android:textSize="18sp" />
 
+    <Button
+        android:id="@+id/btnDisconnect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:drawableTint="#FFFFFF"
+        android:text="Me déconnecter"
+        android:textSize="18sp" />
+
 </LinearLayout>

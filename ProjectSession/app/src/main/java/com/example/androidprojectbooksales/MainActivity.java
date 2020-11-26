@@ -213,8 +213,11 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         return pref.getInt("idUser",-1);
     }
 
-    public boolean isLoggedIn(){
-        return pref.getBoolean("connected", false);
+    public void disconnectUser(){
+        editor.putBoolean("connected", false);
+        editor.putInt("idUser", -1);
+        editor.commit();
+        goToLoginFragment();
     }
 
     public class ViewBookBroadcastReceiver extends BroadcastReceiver

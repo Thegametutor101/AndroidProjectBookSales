@@ -23,7 +23,7 @@ import java.io.File;
 public class Profile_Fragment extends Fragment {
 
     ImageView imgProfilePicture;
-    Button btnAddBook, btnModifyBook, btnDeleteBook;
+    Button btnAddBook, btnModifyBook, btnDeleteBook, btnDisconnect;
     UserInterface userInterface;
 
     public Profile_Fragment() {
@@ -34,6 +34,7 @@ public class Profile_Fragment extends Fragment {
         void goToAddBookFragment();
         void goToModifyBookFragment();
         void goToDeleteBookFragment();
+        void disconnectUser();
         int getIdUser();
     }
 
@@ -66,6 +67,7 @@ public class Profile_Fragment extends Fragment {
         btnAddBook = view.findViewById(R.id.btnAddBook);
         btnModifyBook = view.findViewById(R.id.btnModifyBook);
         btnDeleteBook = view.findViewById(R.id.btnDeleteBook);
+        btnDisconnect = view.findViewById(R.id.btnDisconnect);
 
         Picasso.get().load("http://206.167.140.56:8080/A2020/420505RI/Equipe_6/AppBundle/ressources/userPictures/"
                 + userInterface.getIdUser() + ".png").into(imgProfilePicture);
@@ -90,5 +92,13 @@ public class Profile_Fragment extends Fragment {
                 userInterface.goToDeleteBookFragment();
             }
         });
+
+        btnDisconnect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userInterface.disconnectUser();
+            }
+        });
+
     }
 }
