@@ -16,7 +16,7 @@ public class Book {
     String category;
     @SerializedName("description")
     String description;
-    @SerializedName("availble")
+    @SerializedName("available")
     int available;
     @SerializedName("price")
     double price;
