@@ -52,7 +52,7 @@ public interface InterfaceServeur {
 
     @POST("Management/loadBooks.php")
     @FormUrlEncoded
-    Call<JSONObject> loadBooksSearch(@Field("searchValue") String searchValue, @Field("searchFilter") String searchFilter, @Field("searchFilter") String searchSort);
+    Call<List<Book>> loadBooksSearch(@Field("mobile") String mobile, @Field("searchValue") String searchValue, @Field("searchFilter") String searchFilter, @Field("searchFilter") String searchSort);
 
     @POST("Management/login.php")
     @FormUrlEncoded
@@ -60,7 +60,7 @@ public interface InterfaceServeur {
 
     @POST("Management/rentBook.php")
     @FormUrlEncoded
-    Call<JSONObject> rentBook(@Field("bookID") String bookID,@Field("userID") String userID);
+    Call<String> rentBook(@Field("mobile") String mobile, @Field("bookID") String bookID, @Field("userID") int userID);
 
     @POST("Management/returnBook.php")
     @FormUrlEncoded

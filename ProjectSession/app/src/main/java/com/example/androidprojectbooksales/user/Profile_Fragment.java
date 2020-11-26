@@ -30,8 +30,7 @@ public class Profile_Fragment extends Fragment {
         // Required empty public constructor
     }
 
-    public interface UserInterface
-    {
+    public interface UserInterface {
         void goToAddBookFragment();
         void goToModifyBookFragment();
         void goToDeleteBookFragment();

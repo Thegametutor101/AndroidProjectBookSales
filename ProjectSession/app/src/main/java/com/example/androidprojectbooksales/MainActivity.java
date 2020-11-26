@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.androidprojectbooksales.books.AddBook_Fragment;
+import com.example.androidprojectbooksales.books.SearchBookList_Fragment;
 import com.example.androidprojectbooksales.books.ViewBook_Fragment;
 import com.example.androidprojectbooksales.user.Login_Fragment;
 import com.example.androidprojectbooksales.user.Profile_Fragment;
@@ -26,7 +27,11 @@ import com.example.androidprojectbooksales.user.AddUser_Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
 
-public class MainActivity extends AppCompatActivity implements Login_Fragment.LoginInterface, Profile_Fragment.UserInterface {
+public class MainActivity extends AppCompatActivity implements Login_Fragment.LoginInterface,
+        Profile_Fragment.UserInterface,
+        ViewBook_Fragment.ViewBookInterface,
+        Research_Fragment.SearchInterface,
+        SearchBookList_Fragment.SearchBookListInterface {
 
     BottomNavigationView bottomNav;
     Research_Fragment researchFragment;
@@ -36,7 +41,8 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
     AddUser_Fragment addUserFragment;
     Profile_Fragment profileFragment;
     AddBook_Fragment addBookFragment;
-    ViewBook_Fragment viewBook;
+    ViewBook_Fragment viewBookFragment;
+    SearchBookList_Fragment searchBookListFragment;
 
     ViewBookBroadcastReceiver viewBookBroadcastReceiver;
 
@@ -45,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
 
     SharedPreferences pref ;
     SharedPreferences.Editor editor;
+    MenuItem menuItem = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,28 +75,25 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
 
         fragmentManager = getSupportFragmentManager();
         bottomNav = findViewById(R.id.bottomNav);
-        fragmentTransaction  = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.flFragment,bookListFragment);
-        fragmentTransaction.commit();
+        goToBookListFragment();
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (menuItem == null) {
+                    menuItem = item;
+                }
                 switch(item.getItemId()){
                     case R.id.btnMenuLivres:
-                        fragmentTransaction  = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.flFragment,bookListFragment);
-                        fragmentTransaction.commit();
+                        menuItem.setVisible(true);
+                        goToBookListFragment();
                         return true;
                     case R.id.btnMenuUtilisateur:
+                        menuItem.setVisible(true);
                         if (getIdUser() == -1) {
-                            fragmentTransaction  = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.flFragment,loginFragment);
-                            fragmentTransaction.commit();
+                            goToLoginFragment();
                         } else {
-                            fragmentTransaction  = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.flFragment,profileFragment);
-                            fragmentTransaction.commit();
+                            goToProfileFragment();
                         }
                         return true;
                 }
@@ -118,6 +122,21 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.app_bar_search: {
+                menuItem = item;
+                item.setVisible(false);
+                goToSearchFragment();
+                return true;
+            }
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
+        }
+    }
+
     public void goToAddUserFragment(){
         fragmentTransaction  = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment,addUserFragment);
@@ -130,6 +149,17 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         fragmentTransaction.commit();
     }
 
+    public void goToSearchFragment(){
+        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flFragment,researchFragment);
+        fragmentTransaction.commit();
+    }
+
+    public void goToLoginFragment() {
+        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flFragment,loginFragment);
+        fragmentTransaction.commit();
+    }
 
     public void goToProfileFragment(){
         fragmentTransaction  = fragmentManager.beginTransaction();
@@ -137,10 +167,24 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         fragmentTransaction.commit();
     }
 
-    public void goToViewBook(String id){
-        viewBook = new ViewBook_Fragment(id);
+    public void goToBookListFragment() {
         fragmentTransaction  = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.flFragment,viewBook);
+        fragmentTransaction.replace(R.id.flFragment,bookListFragment);
+        fragmentTransaction.commit();
+    }
+
+    public void goToSearchBookListFragment(String searchValue, String searchFilter, String searchSort) {
+        menuItem.setVisible(true);
+        searchBookListFragment = new SearchBookList_Fragment(searchValue, searchFilter, searchSort);
+        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flFragment,searchBookListFragment);
+        fragmentTransaction.commit();
+    }
+
+    public void goToViewBook(String id){
+        viewBookFragment = new ViewBook_Fragment(id);
+        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flFragment,viewBookFragment);
         fragmentTransaction.commit();
     }
 

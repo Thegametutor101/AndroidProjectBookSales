@@ -11,12 +11,9 @@
     android:padding="15dp"
     tools:context=".Research_Fragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center|center_horizontal|center_vertical"
-        android:layout_weight="0.05">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,7 +23,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvAdvanceResearchTitle"
+                android:id="@+id/tvSearchTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center|center_horizontal|center_vertical"
@@ -36,23 +33,24 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="15dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tvResearchBar"
+                    android:id="@+id/tvSearchValue"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center|center_vertical"
-                    android:layout_weight="1"
+                    android:layout_weight="0.7"
                     android:gravity="center|center_horizontal|center_vertical"
                     android:text="Entrer votre recherche" />
 
                 <EditText
-                    android:id="@+id/etResearchBar"
+                    android:id="@+id/etSearchValue"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center|center_vertical"
-                    android:layout_weight="1"
+                    android:layout_weight="0.3"
                     android:ems="10"
                     android:gravity="center|center_horizontal|center_vertical"
                     android:inputType="textPersonName" />
@@ -96,7 +94,7 @@
                         android:id="@+id/rbSearchCriteriaAuthor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Auteur(e)" />
+                        android:text="Auteur" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -109,7 +107,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tvSortSearch"
+                    android:id="@+id/tvSearchSort"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.7"
@@ -129,13 +127,13 @@
                         android:id="@+id/rbSearchSortLowPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Prix- Du moins élevé" />
+                        android:text="Prix - du moins élevé" />
 
                     <RadioButton
                         android:id="@+id/rbSearchSortHighPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Prix-Du plus élevé" />
+                        android:text="Prix - du plus élevé" />
 
                     <RadioButton
                         android:id="@+id/rbSearchSortTitle"
@@ -144,10 +142,10 @@
                         android:text="Titre" />
 
                     <RadioButton
-                        android:id="@+id/rbSearchSortCategory"
+                        android:id="@+id/rbSearchSortAuthor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Catégorie" />
+                        android:text="Auteur" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -178,5 +176,4 @@
 
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>
