@@ -17,7 +17,9 @@ import android.widget.Toast;
 import com.example.androidprojectbooksales.AdapterItemBook;
 import com.example.androidprojectbooksales.InterfaceServeur;
 import com.example.androidprojectbooksales.R;
+import com.example.androidprojectbooksales.Rentals;
 import com.example.androidprojectbooksales.RetrofitInstance;
+import com.example.androidprojectbooksales.user.Profile_Fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +31,10 @@ import retrofit2.http.Field;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SearchBookList_Fragment#newInstance} factory method to
+ * Use the {@link MyRentedBooks_Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchBookList_Fragment extends Fragment {
+public class MyRentedBooks_Fragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,21 +46,15 @@ public class SearchBookList_Fragment extends Fragment {
     private String mParam2;
     RecyclerView rvBookList;
     AdapterItemBook adapter;
-    String searchValue, searchFilter, searchSort;
-    SearchBookListInterface searchBookListInterface;
+    RentedBooksInterface rentedBooksInterface;
 
-    public SearchBookList_Fragment() {
+    public MyRentedBooks_Fragment() {
         // Required empty public constructor
     }
 
-    public SearchBookList_Fragment(String searchValue, String searchFilter, String searchSort) {
-        this.searchValue = searchValue;
-        this.searchFilter = searchFilter;
-        this.searchSort = searchSort;
-    }
-
-    public interface SearchBookListInterface {
+    public interface RentedBooksInterface {
         void goToBookListFragment();
+        int getIdUser();
     }
 
     /**
@@ -67,11 +63,11 @@ public class SearchBookList_Fragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchBookList_Fragment.
+     * @return A new instance of fragment MyRentedBooks_Fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SearchBookList_Fragment newInstance(String param1, String param2) {
-        SearchBookList_Fragment fragment = new SearchBookList_Fragment();
+    public static MyRentedBooks_Fragment newInstance(String param1, String param2) {
+        MyRentedBooks_Fragment fragment = new MyRentedBooks_Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -82,7 +78,7 @@ public class SearchBookList_Fragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        searchBookListInterface = (SearchBookListInterface) context;
+        rentedBooksInterface = (RentedBooksInterface) context;
     }
 
     @Override
@@ -98,7 +94,7 @@ public class SearchBookList_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search_book_list, container, false);
+        return inflater.inflate(R.layout.fragment_my_rented_books, container, false);
     }
 
     @Override
@@ -107,36 +103,30 @@ public class SearchBookList_Fragment extends Fragment {
         rvBookList = view.findViewById(R.id.rvBookList);
         rvBookList.setHasFixedSize(true);
         rvBookList.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        getBooks();
+        getRentals();
     }
 
-    public void getBooks(){
+    public void getRentals(){
         InterfaceServeur server = RetrofitInstance.getInstance().create(InterfaceServeur.class);
-        Call<List<Book>> loadBooks = server.loadBooksSearch("y", searchValue, searchFilter, searchSort);
+        Call<List<Book>> loadRentals = server.getRentedBooks("y", rentedBooksInterface.getIdUser());
 
-        loadBooks.enqueue(new Callback<List<Book>>() {
+        loadRentals.enqueue(new Callback<List<Book>>() {
             @Override
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
-                List<Book> lines = response.body();
-                List<Book> availableBooks = new ArrayList<Book>();
-                if (lines.size() > 0) {
-                    for (Book book: lines) {
-                        if (book.getAvailable() == 1) {
-                            availableBooks.add(book);
-                        }
-                    }
-                    adapter = new AdapterItemBook(availableBooks, "buy");
+                List<Book> rentals = response.body();
+                if (rentals.size() > 0) {
+                    adapter = new AdapterItemBook(rentals, "return");
                     rvBookList.setAdapter(adapter);
                 } else {
-                    Toast.makeText(getActivity(),"Aucun livres ne correspondent à cette recherche", Toast.LENGTH_SHORT).show();
-                    searchBookListInterface.goToBookListFragment();
+                    Toast.makeText(getActivity(),"Vous n'avez aucun livre acheté", Toast.LENGTH_SHORT).show();
+                    rentedBooksInterface.goToBookListFragment();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Book>> call, Throwable t) {
                 Toast.makeText(getActivity(),"Erreur au chargement des livres", Toast.LENGTH_SHORT).show();
-                searchBookListInterface.goToBookListFragment();
+                rentedBooksInterface.goToBookListFragment();
             }
         });
     }

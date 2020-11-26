@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,9 +22,11 @@ import java.util.List;
 public class AdapterItemBook extends RecyclerView.Adapter<AdapterItemBook.BookViewHolder> {
 
     List<Book> bookList;
+    String type;
 
-    public AdapterItemBook(List<Book> bookList) {
+    public AdapterItemBook(List<Book> bookList, String type) {
         this.bookList = bookList;
+        this.type = type;
     }
 
     @NonNull
@@ -68,8 +71,9 @@ public class AdapterItemBook extends RecyclerView.Adapter<AdapterItemBook.BookVi
                 public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.setAction("com.example.androidprojectbooksales.VIEW_BOOK");
-                    intent.putExtra("id",bookList.get(getLayoutPosition()).getId());
-                    intent.putExtra("owner",bookList.get(getLayoutPosition()).getOwner());
+                    intent.putExtra("id", bookList.get(getLayoutPosition()).getId());
+                    intent.putExtra("type", type);
+                    intent.putExtra("owner", bookList.get(getLayoutPosition()).getOwner());
                     context.sendBroadcast(intent);
                 }
             });

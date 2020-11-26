@@ -1,8 +1,8 @@
 package com.example.androidprojectbooksales.user;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,16 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.androidprojectbooksales.R;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
-
 public class Profile_Fragment extends Fragment {
 
     ImageView imgProfilePicture;
-    Button btnAddBook, btnModifyBook, btnDeleteBook, btnDisconnect;
+    Button btnViewProfile, btnAddBook, btnMyBooks, btnMyRentedBooks, btnDisconnect;
     UserInterface userInterface;
 
     public Profile_Fragment() {
@@ -35,6 +34,7 @@ public class Profile_Fragment extends Fragment {
         void disconnectUser();
         int getIdUser();
         void goToMyBookSale();
+        void goToMyRentedBooksFragment();
     }
 
     @Override
@@ -63,13 +63,15 @@ public class Profile_Fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         imgProfilePicture = view.findViewById(R.id.imgProfilePicture);
+        btnViewProfile = view.findViewById(R.id.btnViewProfile);
         btnAddBook = view.findViewById(R.id.btnAddBook);
-        btnModifyBook = view.findViewById(R.id.btnModifyBook);
-        btnDeleteBook = view.findViewById(R.id.btnDeleteBook);
+        btnMyBooks = view.findViewById(R.id.btnMyBooks);
+        btnMyRentedBooks = view.findViewById(R.id.btnMyRentedBooks);
         btnDisconnect = view.findViewById(R.id.btnDisconnect);
+        final Context context = view.getContext();
 
         Picasso.get().load("http://206.167.140.56:8080/A2020/420505RI/Equipe_6/AppBundle/ressources/userPictures/"
-                + userInterface.getIdUser() + ".png").into(imgProfilePicture);
+                + userInterface.getIdUser() + ".png").resize(300, 300).into(imgProfilePicture);
 
         btnAddBook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,17 +80,45 @@ public class Profile_Fragment extends Fragment {
             }
         });
 
-        btnModifyBook.setOnClickListener(new View.OnClickListener() {
+        btnMyBooks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 userInterface. goToMyBookSale();
             }
         });
 
+        btnMyRentedBooks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userInterface.goToMyRentedBooksFragment();
+            }
+        });
+
         btnDisconnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userInterface.disconnectUser();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Souhaitez-vous vous déconnecter?");
+                builder.setTitle("Déconnection");
+                builder.setNegativeButton("Non", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                        Toast.makeText(context, "Ravis de votre présence", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                        userInterface.disconnectUser();
+                        Toast.makeText(context, "Bonne journée", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 

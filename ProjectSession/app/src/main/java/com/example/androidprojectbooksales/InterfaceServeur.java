@@ -50,6 +50,10 @@ public interface InterfaceServeur {
     @FormUrlEncoded
     Call<List<Book>> loadBooks(@Field("mobile") String mobile);
 
+    @POST("Management/getRentedBooks.php")
+    @FormUrlEncoded
+    Call<List<Book>> getRentedBooks(@Field("mobile") String mobile, @Field("id") int idUser);
+
     @POST("Management/loadBooks.php")
     @FormUrlEncoded
     Call<List<Book>> loadBooksSearch(@Field("mobile") String mobile, @Field("searchValue") String searchValue, @Field("searchFilter") String searchFilter, @Field("searchFilter") String searchSort);
@@ -64,7 +68,7 @@ public interface InterfaceServeur {
 
     @POST("Management/returnBook.php")
     @FormUrlEncoded
-    Call<JSONObject> returnBook(@Field("bookID") String bookID,@Field("userID") String userID);
+    Call<String> returnBook(@Field("mobile") String mobile, @Field("bookID") String bookID, @Field("userID") int userID);
 
     @POST("Management/updateBook.php")
     @FormUrlEncoded
@@ -73,6 +77,4 @@ public interface InterfaceServeur {
     @POST("Management/updateUser.php")
     @FormUrlEncoded
     Call<JSONObject> updateUser(@Field("firstName") String firstNameUser,@Field("lastName") String lastNameUser,@Field("email") String emailUser,@Field("phone") String phoneUser, @Field("password") String passwordUser);
-
-
 }
