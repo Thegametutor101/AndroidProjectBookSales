@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.androidprojectbooksales.books.AddBook_Fragment;
+import com.example.androidprojectbooksales.books.MyBooks_Fragment;
 import com.example.androidprojectbooksales.books.SearchBookList_Fragment;
 import com.example.androidprojectbooksales.books.ViewBook_Fragment;
 import com.example.androidprojectbooksales.user.Login_Fragment;
@@ -31,7 +32,8 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         Profile_Fragment.UserInterface,
         ViewBook_Fragment.ViewBookInterface,
         Research_Fragment.SearchInterface,
-        SearchBookList_Fragment.SearchBookListInterface {
+        SearchBookList_Fragment.SearchBookListInterface,
+        MyBooks_Fragment.MyBookInterface{
 
     BottomNavigationView bottomNav;
     Research_Fragment researchFragment;
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
     Profile_Fragment profileFragment;
     AddBook_Fragment addBookFragment;
     ViewBook_Fragment viewBookFragment;
+    MyBooks_Fragment myBooks_fragment;
     SearchBookList_Fragment searchBookListFragment;
 
     ViewBookBroadcastReceiver viewBookBroadcastReceiver;
@@ -71,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         addUserFragment = new AddUser_Fragment();
         addBookFragment = new AddBook_Fragment();
         bookListFragment = new BookList_Fragment();
+        myBooks_fragment = new MyBooks_Fragment();
         viewBookBroadcastReceiver = new ViewBookBroadcastReceiver();
 
         fragmentManager = getSupportFragmentManager();
@@ -193,6 +197,13 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         //fragmentTransaction  = fragmentManager.beginTransaction();
         //fragmentTransaction.replace(R.id.flFragment,addUserFragment);
         //fragmentTransaction.commit();
+    }
+
+
+    public void goToMyBookSale(){
+        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flFragment,myBooks_fragment);
+        fragmentTransaction.commit();
     }
 
 

@@ -36,6 +36,7 @@ public class Profile_Fragment extends Fragment {
         void goToDeleteBookFragment();
         void disconnectUser();
         int getIdUser();
+        void goToMyBookSale();
     }
 
     @Override
@@ -82,7 +83,7 @@ public class Profile_Fragment extends Fragment {
         btnModifyBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userInterface.goToModifyBookFragment();
+                userInterface. goToMyBookSale();
             }
         });
 
