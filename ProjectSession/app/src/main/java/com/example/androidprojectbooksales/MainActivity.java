@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.androidprojectbooksales.books.AddBook_Fragment;
+import com.example.androidprojectbooksales.books.ModifyBook_Fragment;
 import com.example.androidprojectbooksales.books.MyBooks_Fragment;
 import com.example.androidprojectbooksales.books.SearchBookList_Fragment;
 import com.example.androidprojectbooksales.books.ViewBook_Fragment;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
     Research_Fragment researchFragment;
     Login_Fragment loginFragment;
     BookList_Fragment bookListFragment;
+    ModifyBook_Fragment modifyBook_fragment;
 
     AddUser_Fragment addUserFragment;
     Profile_Fragment profileFragment;
@@ -193,10 +195,11 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
     }
 
 
-    public void goToModifyBookFragment(){
-        //fragmentTransaction  = fragmentManager.beginTransaction();
-        //fragmentTransaction.replace(R.id.flFragment,addUserFragment);
-        //fragmentTransaction.commit();
+    public void goToModifyBookFragment(String id){
+        modifyBook_fragment = new ModifyBook_Fragment(id);
+        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flFragment,modifyBook_fragment);
+        fragmentTransaction.commit();
     }
 
 
@@ -236,7 +239,15 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         @Override
         public void onReceive(Context context, Intent intent) {
             String id = intent.getStringExtra("id");
-            goToViewBook(id);
+            if (Integer.parseInt(intent.getStringExtra("owner"))==getIdUser()){
+                goToModifyBookFragment(id);
+            }
+            else{
+                goToViewBook(id);
+            }
+
         }
     }
+
+
 }

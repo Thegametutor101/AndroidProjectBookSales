@@ -69,6 +69,7 @@ public class AdapterItemBook extends RecyclerView.Adapter<AdapterItemBook.BookVi
                     Intent intent = new Intent();
                     intent.setAction("com.example.androidprojectbooksales.VIEW_BOOK");
                     intent.putExtra("id",bookList.get(getLayoutPosition()).getId());
+                    intent.putExtra("owner",bookList.get(getLayoutPosition()).getOwner());
                     context.sendBroadcast(intent);
                 }
             });

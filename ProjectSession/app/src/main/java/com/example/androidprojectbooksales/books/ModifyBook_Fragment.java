@@ -18,6 +18,10 @@ public class ModifyBook_Fragment extends Fragment {
         // Required empty public constructor
     }
 
+    public ModifyBook_Fragment(String id) {
+
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
