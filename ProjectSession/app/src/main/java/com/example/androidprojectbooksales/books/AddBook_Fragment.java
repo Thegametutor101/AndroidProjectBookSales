@@ -1,8 +1,11 @@
 package com.example.androidprojectbooksales.books;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -21,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -47,6 +51,9 @@ public class AddBook_Fragment extends Fragment {
     EditText etTitle, etAuthor, etCategory, etSummary, etPrice;
     RadioGroup rgAvailable;
     int available;
+    ImageView imCover;
+    File fichierPhoto;
+
 
     public AddBook_Fragment() {
         // Required empty public constructor
@@ -81,6 +88,7 @@ public class AddBook_Fragment extends Fragment {
         btnClear=view.findViewById(R.id.btnAddBookClear);
         btnBookCover=view.findViewById(R.id.btnBookCover);
 
+        imCover=view.findViewById(R.id.ivBookCover);
         rgAvailable=view.findViewById(R.id.rgAddBookAvailable);
 
         rgAvailable.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
@@ -144,10 +152,20 @@ public class AddBook_Fragment extends Fragment {
 
 
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            Bitmap bitmap = BitmapFactory.decodeFile(fichierPhoto.getAbsolutePath());
+            imCover.setImageBitmap(bitmap);
+            //sauvegarderImage();
+        }
+    }
+
     public void lancerProgramme()
     {
         btnBookCover.setVisibility(View.VISIBLE);
-        //btnBookCover.setText("Choisir une photo de couverture");
         btnBookCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -161,7 +179,7 @@ public class AddBook_Fragment extends Fragment {
         // on s'assure que l'activité de la camera existe bel et bien
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             // on crée le fichier devant recevoir la photo
-            File fichierPhoto = null;
+            fichierPhoto = null;
             try {
                 fichierPhoto = creationFichierPhoto();
             } catch (IOException ex) {
@@ -170,8 +188,9 @@ public class AddBook_Fragment extends Fragment {
             // on continue si le fichier est créé correctement
             if (fichierPhoto != null) {
                 Uri photoURI = FileProvider.getUriForFile( getActivity(),
-                        "com.example.androidprojectbooksales",
+                        "com.example.androidprojectbooksales.fileprovider",
                         fichierPhoto);
+
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, 1);
             }

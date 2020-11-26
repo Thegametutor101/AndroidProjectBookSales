@@ -1,6 +1,7 @@
 package com.example.androidprojectbooksales;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -10,6 +11,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.Menu;
@@ -253,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
 
         }
     }
+
 
 
 }
