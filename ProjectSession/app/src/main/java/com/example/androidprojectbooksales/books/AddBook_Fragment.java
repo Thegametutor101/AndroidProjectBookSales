@@ -79,7 +79,6 @@ public class AddBook_Fragment extends Fragment {
 
         btnAdd=view.findViewById(R.id.btnAddBookValidate);
         btnClear=view.findViewById(R.id.btnAddBookClear);
-
         btnBookCover=view.findViewById(R.id.btnBookCover);
 
         rgAvailable=view.findViewById(R.id.rgAddBookAvailable);
@@ -116,6 +115,11 @@ public class AddBook_Fragment extends Fragment {
             }
         });
 
+        btnBookCover.setVisibility(View.INVISIBLE);
+
+        if (verifierPermissions()){
+            lancerProgramme();
+        }
 
     }
 
@@ -143,7 +147,7 @@ public class AddBook_Fragment extends Fragment {
     public void lancerProgramme()
     {
         btnBookCover.setVisibility(View.VISIBLE);
-
+        //btnBookCover.setText("Choisir une photo de couverture");
         btnBookCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -1,15 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".books.ModifyBook_Fragment">
 
     <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/tvModifyBook"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center|center_horizontal|center_vertical"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:text="Modifier un livre"
+        android:textSize="36sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imModifyBook"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:src="@tools:sample/avatars" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Changer photo de couverture" />
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:padding="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,45 +51,6 @@
             android:gravity="center|center_horizontal|center_vertical"
             android:orientation="vertical"
             android:padding="10dp">
-
-            <TextView
-                android:id="@+id/tvModifyBook"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|center_horizontal|center_vertical"
-                android:gravity="center|center_horizontal|center_vertical"
-                android:text="Modifier un livre"
-                android:textSize="36sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|center_horizontal|center_vertical"
-                android:layout_margin="10dp"
-                android:gravity="center|center_horizontal|center_vertical"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/tvModifyBookID"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center|center_horizontal|center_vertical"
-                    android:layout_weight="1"
-                    android:gravity="center|center_horizontal|center_vertical"
-                    android:text="ID"
-                    android:textSize="24sp" />
-
-                <TextView
-                    android:id="@+id/tvModifyBookIdVal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center|center_horizontal|center_vertical"
-                    android:layout_weight="1"
-                    android:gravity="center|center_horizontal|center_vertical"
-                    android:text="valeur ID"
-                    android:textSize="24sp" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -263,23 +256,30 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <Button
                     android:id="@+id/btnModifyBookValidate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:backgroundTint="#98E143"
-                    android:text="valider les modifications" />
+                    android:text="Valider" />
 
                 <Button
                     android:id="@+id/btnModifyBookClear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:backgroundTint="#E15E5E"
                     android:text="Réinitialiser" />
+
+                <Button
+                    android:id="@+id/btnDeleteMyBook"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Supprimer le livre" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
