@@ -85,10 +85,22 @@ public class Research_Fragment extends Fragment {
                     sort = rbSearchSort.getText().toString();
                 }
                 if (etSearchValue.getText().toString().matches ("[a-zA-Z0-9!_,' ?-]+\\.?")) {
-                    searchInterface.goToSearchBookListFragment(etSearchValue.getText().toString(), filter, sort);
+                    String value = etSearchValue.getText().toString();
+                    rgSearchCriteria.clearCheck();
+                    rgSearchSort.clearCheck();
+                    etSearchValue.setText("");
+                    searchInterface.goToSearchBookListFragment(value, filter, sort);
                 } else {
                     Toast.makeText(getActivity(),"Veuillez entrer une valeur de recherche adéquate", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        btnClearSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rgSearchCriteria.clearCheck();
+                rgSearchSort.clearCheck();
+                etSearchValue.setText("");
             }
         });
     }

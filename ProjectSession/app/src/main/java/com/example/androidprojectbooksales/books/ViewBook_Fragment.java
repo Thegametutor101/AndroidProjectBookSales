@@ -20,6 +20,7 @@ import com.example.androidprojectbooksales.InterfaceServeur;
 import com.example.androidprojectbooksales.R;
 import com.example.androidprojectbooksales.RetrofitInstance;
 import com.example.androidprojectbooksales.user.Profile_Fragment;
+import com.google.gson.internal.$Gson$Types;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -27,11 +28,12 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Field;
 
 
 public class ViewBook_Fragment extends Fragment {
 
-    private String id;
+    private String id, type;
     private ImageView imgBookCover;
     private TextView tvBookTitle, tvBookAuthor, tvBookCategory, tvBookDescription, tvBookPrice;
     private ViewBookInterface viewBookInterface;
@@ -39,8 +41,9 @@ public class ViewBook_Fragment extends Fragment {
     public ViewBook_Fragment() {
         // Required empty public constructor
     }
-    public ViewBook_Fragment(String id) {
+    public ViewBook_Fragment(String id, String type) {
         this.id = id;
+        this.type = type;
     }
 
     public interface ViewBookInterface {
@@ -85,6 +88,14 @@ public class ViewBook_Fragment extends Fragment {
         tvBookDescription = view.findViewById(R.id.tvBookDescription);
         tvBookPrice = view.findViewById(R.id.tvBookPrice);
         Button btnBuyBook = view.findViewById(R.id.btnBuyBook);
+        Button btnReturnBook = view.findViewById(R.id.btnReturnBook);
+        if (type.equals("buy")) {
+            btnBuyBook.setVisibility(View.VISIBLE);
+            btnReturnBook.setVisibility(View.GONE);
+        } else if (type.equals("return")) {
+            btnBuyBook.setVisibility(View.GONE);
+            btnReturnBook.setVisibility(View.VISIBLE);
+        }
         getBook(id);
         btnBuyBook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +105,12 @@ public class ViewBook_Fragment extends Fragment {
                 } else {
                     rentBook(id);
                 }
+            }
+        });
+        btnReturnBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                returnBook(id);
             }
         });
     }
@@ -130,7 +147,7 @@ public class ViewBook_Fragment extends Fragment {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 String status = response.body();
-                if (status == "ok") {
+                if (status.equals("ok")) {
                     viewBookInterface.goToBookListFragment();
                     Toast.makeText(getActivity(),"Ce livre est maintenent à vous!", Toast.LENGTH_SHORT).show();
                 } else {
@@ -141,6 +158,29 @@ public class ViewBook_Fragment extends Fragment {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(getActivity(),"Erreur à l'emprunt", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void returnBook(String id) {
+        InterfaceServeur server = RetrofitInstance.getInstance().create(InterfaceServeur.class);
+        Call<String> returnBook = server.returnBook("y", id, viewBookInterface.getIdUser());
+
+        returnBook.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                String status = response.body();
+                if (status.equals("ok")) {
+                    viewBookInterface.goToBookListFragment();
+                    Toast.makeText(getActivity(),"Merci de rapporter ce livre", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(),"Erreur au retour", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(getActivity(),"Erreur au retour", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.androidprojectbooksales.books.AddBook_Fragment;
 import com.example.androidprojectbooksales.books.ModifyBook_Fragment;
 import com.example.androidprojectbooksales.books.MyBooks_Fragment;
+import com.example.androidprojectbooksales.books.MyRentedBooks_Fragment;
 import com.example.androidprojectbooksales.books.SearchBookList_Fragment;
 import com.example.androidprojectbooksales.books.ViewBook_Fragment;
 import com.example.androidprojectbooksales.user.Login_Fragment;
@@ -34,7 +35,8 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         ViewBook_Fragment.ViewBookInterface,
         Research_Fragment.SearchInterface,
         SearchBookList_Fragment.SearchBookListInterface,
-        MyBooks_Fragment.MyBookInterface{
+        MyBooks_Fragment.MyBookInterface,
+        MyRentedBooks_Fragment.RentedBooksInterface {
 
     BottomNavigationView bottomNav;
     Research_Fragment researchFragment;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
     ViewBook_Fragment viewBookFragment;
     MyBooks_Fragment myBooks_fragment;
     SearchBookList_Fragment searchBookListFragment;
+    MyRentedBooks_Fragment myRentedBooksFragment;
 
     ViewBookBroadcastReceiver viewBookBroadcastReceiver;
 
@@ -187,8 +190,8 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         fragmentTransaction.commit();
     }
 
-    public void goToViewBook(String id){
-        viewBookFragment = new ViewBook_Fragment(id);
+    public void goToViewBook(String id, String type){
+        viewBookFragment = new ViewBook_Fragment(id, type);
         fragmentTransaction  = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment,viewBookFragment);
         fragmentTransaction.commit();
@@ -210,10 +213,11 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
     }
 
 
-    public void goToDeleteBookFragment(){
-        //fragmentTransaction  = fragmentManager.beginTransaction();
-        //fragmentTransaction.replace(R.id.flFragment,addUserFragment);
-        //fragmentTransaction.commit();
+    public void goToMyRentedBooksFragment(){
+        myRentedBooksFragment = new MyRentedBooks_Fragment();
+        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flFragment,myRentedBooksFragment);
+        fragmentTransaction.commit();
     }
 
 
@@ -239,11 +243,12 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         @Override
         public void onReceive(Context context, Intent intent) {
             String id = intent.getStringExtra("id");
+            String type = intent.getStringExtra("type");
             if (Integer.parseInt(intent.getStringExtra("owner"))==getIdUser()){
                 goToModifyBookFragment(id);
             }
             else{
-                goToViewBook(id);
+                goToViewBook(id, type);
             }
 
         }

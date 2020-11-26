@@ -91,7 +91,7 @@ public class MyBooks_Fragment extends Fragment {
                         myBook.add(book);
                     }
                 }
-                adapter = new AdapterItemBook(myBook);
+                adapter = new AdapterItemBook(myBook, "buy");
                 rvBookList.setAdapter(adapter);
 
 

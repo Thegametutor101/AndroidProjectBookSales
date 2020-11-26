@@ -74,7 +74,7 @@ public class BookList_Fragment extends Fragment {
                         availableBooks.add(book);
                     }
                 }
-                adapter = new AdapterItemBook(availableBooks);
+                adapter = new AdapterItemBook(availableBooks, "buy");
                 rvBookList.setAdapter(adapter);
             }
 
