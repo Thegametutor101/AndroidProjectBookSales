@@ -6,21 +6,37 @@ import com.example.androidprojectbooksales.user.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface InterfaceServeur {
 
+    @Multipart
     @POST("Management/addBook.php")
-    @FormUrlEncoded
-    Call<Void> addBook(@Field("title") String titleBook,@Field("author") String authorBook,@Field("category") String categoryBook,@Field("description") String descriptionBook, @Field("available") int availableBook, @Field("price") double priceBook,@Field("owner") String ownerBook);
+    Call<String> addBook(
+            @Part ("mobile") String part_mobile,
+            @Part ("title") String part_title,
+            @Part ("author") String part_author,
+            @Part ("category") String part_category,
+            @Part ("description") String part_summary,
+            @Part ("available") String part_available,
+            @Part ("price") String part_price,
+            @Part MultipartBody.Part part_fichier,
+            @Part ("owner") String part_owner
+    );
 
     @POST("Management/addUser.php")
     @FormUrlEncoded

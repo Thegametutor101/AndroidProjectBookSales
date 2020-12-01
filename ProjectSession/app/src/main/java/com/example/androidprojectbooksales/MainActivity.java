@@ -11,10 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,7 +28,6 @@ import com.example.androidprojectbooksales.user.Profile_Fragment;
 import com.example.androidprojectbooksales.books.BookList_Fragment;
 import com.example.androidprojectbooksales.user.AddUser_Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity implements Login_Fragment.LoginInterface,
         Profile_Fragment.UserInterface,
@@ -39,7 +35,8 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         Research_Fragment.SearchInterface,
         SearchBookList_Fragment.SearchBookListInterface,
         MyBooks_Fragment.MyBookInterface,
-        MyRentedBooks_Fragment.RentedBooksInterface {
+        MyRentedBooks_Fragment.RentedBooksInterface,
+        AddBook_Fragment.AddBookInterface{
 
     BottomNavigationView bottomNav;
     Research_Fragment researchFragment;
@@ -63,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
     SharedPreferences pref ;
     SharedPreferences.Editor editor;
     MenuItem menuItem = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -258,5 +256,47 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
     }
 
 
+
+    public boolean checkFieldBasic(String field, String fieldName, int maxSize, String dataType){
+        String errorMessage="tok";
+        String regexDigit = "[0-9]+";
+        String  regexCaracter = "\\D";
+        String regexEmail="(\\w)(\\s+)([\\.,])";
+
+        if (field.trim().isEmpty()){
+            errorMessage="Le champs "+fieldName+" est vide";
+            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if(!(field.matches(regexDigit))){
+            if(field.length()>=maxSize){
+            errorMessage="Le champs "+fieldName+" dépasse la limite de caractère";
+            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+            return false;
+            }
+        }
+        else if((dataType=="NumberOnly") && field.matches(regexDigit) && Double.parseDouble(field)<=0){
+            errorMessage="Le champs "+fieldName+" doit contenir une valeure supérieure à zéro";
+            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if((dataType=="NumberOnly") && !(field.matches(regexDigit))){
+            errorMessage="Le champs "+fieldName+" ne doit contenir que des valeurs numériques";
+            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if((dataType=="CaracterOnly") && !(field.matches(regexCaracter))){
+            errorMessage="Le champs "+fieldName+" ne doit contenir que des valeurs non-numérique";
+            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if((dataType=="Email") && !(field.matches(regexEmail))){
+            errorMessage="Le champs "+fieldName+" doit contenir un email qui correspond au format suivant: exemple@gmail.com";
+            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return true;
+    }
 
 }

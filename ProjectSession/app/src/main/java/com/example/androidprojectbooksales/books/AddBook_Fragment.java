@@ -2,6 +2,7 @@ package com.example.androidprojectbooksales.books;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -25,7 +26,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.androidprojectbooksales.InterfaceServeur;
@@ -39,6 +42,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,10 +60,29 @@ public class AddBook_Fragment extends Fragment {
     int available;
     ImageView imCover;
     File fichierPhoto;
+    AddBookInterface addBookInterface;
+    TextView tvAddBookTitle;
+    RadioButton rbAvailable, rbNotAvailable;
+
+
 
 
     public AddBook_Fragment() {
         // Required empty public constructor
+    }
+
+
+    public interface AddBookInterface
+    {
+        boolean checkFieldBasic(String field, String fieldName, int maxSize, String dataType);
+        int getIdUser();
+        void goToProfileFragment();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        addBookInterface = (AddBookInterface)context;
     }
 
     @Override
@@ -84,6 +110,10 @@ public class AddBook_Fragment extends Fragment {
         etSummary=view.findViewById(R.id.etAddBookSummary);
         etPrice=view.findViewById(R.id.etAddBookPrice);
 
+        tvAddBookTitle=view.findViewById(R.id.etAddBookPrice);
+        rbAvailable=view.findViewById(R.id.rbAddBookAvailbleYes);
+        rbNotAvailable=view.findViewById(R.id.rbAddBookAvailbleNo);
+
         btnAdd=view.findViewById(R.id.btnAddBookValidate);
         btnClear=view.findViewById(R.id.btnAddBookClear);
         btnBookCover=view.findViewById(R.id.btnBookCover);
@@ -108,7 +138,21 @@ public class AddBook_Fragment extends Fragment {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addBook(etTitle.getText().toString(),etAuthor.getText().toString(),etCategory.getText().toString(),etSummary.getText().toString(),available,Double.parseDouble(etPrice.getText().toString()),"Alex");
+                if(     addBookInterface.checkFieldBasic(etTitle.getText().toString(), "titre", 250, "None") &&
+                        addBookInterface.checkFieldBasic(etAuthor.getText().toString(),"auteur",202,"CaracterOnly") &&
+                        addBookInterface.checkFieldBasic(etCategory.getText().toString(),"catégorie",200,"CaracterOnly") &&
+                        addBookInterface.checkFieldBasic(etSummary.getText().toString(),"description",2000000000,"No") &&
+                        addBookInterface.checkFieldBasic(etPrice.getText().toString(),"prix",0,("NumberOnly"))){
+                    sauvegarderImage();
+                    etTitle.setText("");
+                    etAuthor.setText("");
+                    etCategory.setText("");
+                    etSummary.setText("");
+                    etPrice.setText("");
+                    rbAvailable.setChecked(false);
+                    rbNotAvailable.setChecked(false);
+                }
+
             }
         });
 
@@ -120,6 +164,8 @@ public class AddBook_Fragment extends Fragment {
                 etCategory.setText("");
                 etSummary.setText("");
                 etPrice.setText("");
+                rbAvailable.setChecked(false);
+                rbNotAvailable.setChecked(false);
             }
         });
 
@@ -129,25 +175,6 @@ public class AddBook_Fragment extends Fragment {
             lancerProgramme();
         }
 
-    }
-
-
-    public void addBook(String titleBook,String authorBook,String categoryBook,String descriptionBook,int availableBook,double priceBook, String ownerBook){
-        InterfaceServeur serveur = RetrofitInstance.getInstance().create(InterfaceServeur.class);
-        Call<Void> addBookCall = serveur.addBook(titleBook,authorBook,categoryBook,descriptionBook,availableBook,priceBook,ownerBook);
-
-
-        addBookCall.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                Toast.makeText(getActivity(),"Le livre à bien été ajouté", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(getActivity(),"Une erreur est survenue, veuillez réessayer", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
 
@@ -256,6 +283,49 @@ public class AddBook_Fragment extends Fragment {
             lancerProgramme();
     }
 
+
+    public void sauvegarderImage() {
+        MediaType mediaType = MediaType.parse("image/*");
+        RequestBody fichier_requete = RequestBody.create(mediaType, fichierPhoto);
+
+        String part_mobile ="y";
+
+        String part_title = etTitle.getText().toString();
+
+        String part_author = etAuthor.getText().toString();
+
+        String part_category = etCategory.getText().toString();
+
+        String part_summary = etSummary.getText().toString();
+
+        String part_available = String.valueOf(available);
+
+        String part_price = etPrice.getText().toString();
+
+        MultipartBody.Part part_fichier = MultipartBody.Part.createFormData("cover",
+                fichierPhoto.getName(),
+                fichier_requete);
+
+        String part_owner = String.valueOf(addBookInterface.getIdUser());
+
+
+        InterfaceServeur serveur = RetrofitInstance.getInstance().create(InterfaceServeur.class);
+        Call<String> addBookCall = serveur.addBook(part_mobile,part_title,part_author,part_category,part_summary,part_available,part_price,part_fichier,part_owner);
+        addBookCall.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Toast.makeText(getActivity(), "Le livre à bien été ajouté", Toast.LENGTH_SHORT).show();
+                addBookInterface.goToProfileFragment();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(getActivity(), "Une erreur est survenue, veuillez réessayer", Toast.LENGTH_SHORT).show();
+                tvAddBookTitle.setText(t.getMessage());
+            }
+        });
+
+    }
 
 
 
