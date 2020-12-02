@@ -38,6 +38,20 @@ public interface InterfaceServeur {
             @Part ("owner") String part_owner
     );
 
+    @Multipart
+    @POST("Management/updateBook.php")
+    Call<String> updateBook(
+            @Part ("mobile") String part_mobile,
+            @Part ("title") String part_title,
+            @Part ("author") String part_author,
+            @Part ("category") String part_category,
+            @Part ("description") String part_summary,
+            @Part ("available") String part_available,
+            @Part ("price") String part_price,
+            @Part MultipartBody.Part part_fichier,
+            @Part ("owner") String part_owner
+    );
+
     @POST("Management/addUser.php")
     @FormUrlEncoded
     Call<Void> addUser(@Field("mobile") String mobile,@Field("firstName") String firstNameUser,@Field("lastName") String lastNameUser,@Field("email") String emailUser,@Field("phone") String phoneUser, @Field("password") String passwordUser);
@@ -85,10 +99,6 @@ public interface InterfaceServeur {
     @POST("Management/returnBook.php")
     @FormUrlEncoded
     Call<String> returnBook(@Field("mobile") String mobile, @Field("bookID") String bookID, @Field("userID") int userID);
-
-    @POST("Management/updateBook.php")
-    @FormUrlEncoded
-    Call<JSONObject> updateBook(@Field("title") String titleBook,@Field("author") String authorBook,@Field("category") String categoryBook,@Field("description") String descriptionBook, @Field("available") int availableBook, @Field("price") double priceBook,@Field("owner") String ownerBook);
 
     @POST("Management/updateUser.php")
     @FormUrlEncoded

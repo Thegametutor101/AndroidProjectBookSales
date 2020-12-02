@@ -2,6 +2,7 @@ package com.example.androidprojectbooksales.books;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -25,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.androidprojectbooksales.AdapterItemBook;
@@ -40,6 +42,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,7 +56,11 @@ EditText etTitre, etAuteur, etCategory, etDescription, etPrix;
 Button btnValider, btnEffacer, btnSupprimer, btnBookCover;
 ImageView imCover;
 RadioButton rbAvailable, rbNotAvailable;
+ModifyBook modifyBook;
 File fichierPhoto;
+RadioGroup rgAvailable;
+int available;
+
 
     public ModifyBook_Fragment() {
         // Required empty public constructor
@@ -59,6 +68,19 @@ File fichierPhoto;
 
     public ModifyBook_Fragment(String id) {
         getBook(id);
+    }
+
+    public interface ModifyBook
+    {
+        boolean checkFieldBasic(String field, String fieldName, int maxSize, String dataType);
+        int getIdUser();
+        void goToProfileFragment();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        modifyBook = (ModifyBook)context;
     }
 
 
@@ -93,6 +115,61 @@ File fichierPhoto;
         imCover=view.findViewById(R.id.imModifyBook);
         rbAvailable=view.findViewById(R.id.rbModifyBookAvailableYes);
         rbNotAvailable=view.findViewById(R.id.rbModifyBookAvailableNo);
+        rgAvailable=view.findViewById(R.id.rgModifyBookAvailable);
+
+        rgAvailable.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch(checkedId){
+                    case R.id.rbAddBookAvailbleYes:
+                        available=1;
+                        break;
+                    case R.id.rbAddBookAvailbleNo:
+                        available=0;
+                        break;
+                }
+            }
+        });
+
+        btnValider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(     modifyBook.checkFieldBasic(etTitre.getText().toString(), "titre", 250, "None") &&
+                        modifyBook.checkFieldBasic(etAuteur.getText().toString(),"auteur",202,"CaracterOnly") &&
+                        modifyBook.checkFieldBasic(etCategory.getText().toString(),"catégorie",200,"CaracterOnly") &&
+                        modifyBook.checkFieldBasic(etDescription.getText().toString(),"description",2000000000,"No") &&
+                        modifyBook.checkFieldBasic(etPrix.getText().toString(),"prix",0,("NumberOnly"))){
+                    sauvegarderImage();
+                    etTitre.setText("");
+                    etAuteur.setText("");
+                    etCategory.setText("");
+                    etDescription.setText("");
+                    etPrix.setText("");
+                    rbAvailable.setChecked(false);
+                    rbNotAvailable.setChecked(false);
+                }
+
+            }
+        });
+
+        btnEffacer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                etTitre.setText("");
+                etAuteur.setText("");
+                etCategory.setText("");
+                etDescription.setText("");
+                etPrix.setText("");
+                rbAvailable.setChecked(false);
+                rbNotAvailable.setChecked(false);
+            }
+        });
+
+        btnBookCover.setVisibility(View.INVISIBLE);
+
+        if (verifierPermissions()){
+            lancerProgramme();
+        }
 
     }
 
@@ -130,14 +207,11 @@ File fichierPhoto;
     }
 
 
-
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             Bitmap bitmap = BitmapFactory.decodeFile(fichierPhoto.getAbsolutePath());
             imCover.setImageBitmap(bitmap);
             //sauvegarderImage();
@@ -173,7 +247,7 @@ File fichierPhoto;
                         fichierPhoto);
 
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, 2);
+                startActivityForResult(takePictureIntent, 1);
             }
         }
     }
@@ -238,5 +312,46 @@ File fichierPhoto;
     }
 
 
+    public void sauvegarderImage() {
+        MediaType mediaType = MediaType.parse("image/*");
+        RequestBody fichier_requete = RequestBody.create(mediaType, fichierPhoto);
+
+        String part_mobile ="y";
+
+        String part_title = etTitre.getText().toString();
+
+        String part_author = etAuteur.getText().toString();
+
+        String part_category = etCategory.getText().toString();
+
+        String part_summary = etDescription.getText().toString();
+
+        String part_available = String.valueOf(available);
+
+        String part_price = etPrix.getText().toString();
+
+        MultipartBody.Part part_fichier = MultipartBody.Part.createFormData("cover",
+                fichierPhoto.getName(),
+                fichier_requete);
+
+        String part_owner = String.valueOf(modifyBook.getIdUser());
+
+
+        InterfaceServeur serveur = RetrofitInstance.getInstance().create(InterfaceServeur.class);
+        Call<String> updateBookCall = serveur.updateBook(part_mobile,part_title,part_author,part_category,part_summary,part_available,part_price,part_fichier,part_owner);
+        updateBookCall.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Toast.makeText(getActivity(), "Le livre à bien été ajouté", Toast.LENGTH_SHORT).show();
+                modifyBook.goToProfileFragment();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(getActivity(), "Une erreur est survenue, veuillez réessayer", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 
 }

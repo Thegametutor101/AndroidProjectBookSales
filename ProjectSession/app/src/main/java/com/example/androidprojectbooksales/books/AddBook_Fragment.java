@@ -321,7 +321,6 @@ public class AddBook_Fragment extends Fragment {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(getActivity(), "Une erreur est survenue, veuillez réessayer", Toast.LENGTH_SHORT).show();
-                tvAddBookTitle.setText(t.getMessage());
             }
         });
 
