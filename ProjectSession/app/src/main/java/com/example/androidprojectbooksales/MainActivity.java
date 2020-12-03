@@ -27,6 +27,7 @@ import com.example.androidprojectbooksales.user.Login_Fragment;
 import com.example.androidprojectbooksales.user.Profile_Fragment;
 import com.example.androidprojectbooksales.books.BookList_Fragment;
 import com.example.androidprojectbooksales.user.AddUser_Fragment;
+import com.example.androidprojectbooksales.user.ViewProfile_Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements Login_Fragment.LoginInterface,
@@ -35,9 +36,10 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         Research_Fragment.SearchInterface,
         SearchBookList_Fragment.SearchBookListInterface,
         MyBooks_Fragment.MyBookInterface,
-        MyRentedBooks_Fragment.RentedBooksInterface,
         AddBook_Fragment.AddBookInterface,
         ModifyBook_Fragment.ModifyBookInterface{
+        MyRentedBooks_Fragment.RentedBooksInterface,
+        ViewProfile_Fragment.ViewProfileInterface {
 
     BottomNavigationView bottomNav;
     Research_Fragment researchFragment;
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
     MyBooks_Fragment myBooks_fragment;
     SearchBookList_Fragment searchBookListFragment;
     MyRentedBooks_Fragment myRentedBooksFragment;
+    ViewProfile_Fragment viewProfileFragment;
 
     ViewBookBroadcastReceiver viewBookBroadcastReceiver;
 
@@ -149,37 +152,45 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
     }
 
     public void goToAddUserFragment(){
-        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment,addUserFragment);
         fragmentTransaction.commit();
     }
 
     public void goToAddBookFragment(){
-        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment,addBookFragment);
         fragmentTransaction.commit();
     }
 
     public void goToSearchFragment(){
-        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment,researchFragment);
         fragmentTransaction.commit();
     }
 
     public void goToLoginFragment() {
-        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment,loginFragment);
         fragmentTransaction.commit();
     }
 
     public void goToProfileFragment(){
-        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment,profileFragment);
         fragmentTransaction.commit();
     }
 
+    public void goToViewProfileFragment(){
+
+        viewProfileFragment = new ViewProfile_Fragment();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flFragment,viewProfileFragment);
+        fragmentTransaction.commit();
+    }
+
     public void goToBookListFragment() {
-        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment,bookListFragment);
         fragmentTransaction.commit();
     }
@@ -187,14 +198,14 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
     public void goToSearchBookListFragment(String searchValue, String searchFilter, String searchSort) {
         menuItem.setVisible(true);
         searchBookListFragment = new SearchBookList_Fragment(searchValue, searchFilter, searchSort);
-        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment,searchBookListFragment);
         fragmentTransaction.commit();
     }
 
     public void goToViewBook(String id, String type){
         viewBookFragment = new ViewBook_Fragment(id, type);
-        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment,viewBookFragment);
         fragmentTransaction.commit();
     }
@@ -202,14 +213,14 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
 
     public void goToModifyBookFragment(String id){
         modifyBook_fragment = new ModifyBook_Fragment(id);
-        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment,modifyBook_fragment);
         fragmentTransaction.commit();
     }
 
 
     public void goToMyBookSale(){
-        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment,myBooks_fragment);
         fragmentTransaction.commit();
     }
@@ -217,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
 
     public void goToMyRentedBooksFragment(){
         myRentedBooksFragment = new MyRentedBooks_Fragment();
-        fragmentTransaction  = fragmentManager.beginTransaction();
+        fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.flFragment,myRentedBooksFragment);
         fragmentTransaction.commit();
     }

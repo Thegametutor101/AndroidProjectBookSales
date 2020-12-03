@@ -35,6 +35,7 @@ public class Profile_Fragment extends Fragment {
         int getIdUser();
         void goToMyBookSale();
         void goToMyRentedBooksFragment();
+        void goToViewProfileFragment();
     }
 
     @Override
@@ -73,6 +74,13 @@ public class Profile_Fragment extends Fragment {
         Picasso.get().load("http://206.167.140.56:8080/A2020/420505RI/Equipe_6/AppBundle/ressources/userPictures/"
                 + userInterface.getIdUser() + ".png").resize(300, 300).into(imgProfilePicture);
 
+        btnViewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userInterface.goToViewProfileFragment();
+            }
+        });
+
         btnAddBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,16 +108,14 @@ public class Profile_Fragment extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setMessage("Souhaitez-vous vous déconnecter?");
                 builder.setTitle("Déconnection");
-                builder.setNegativeButton("Non", new DialogInterface.OnClickListener()
-                {
+                builder.setNegativeButton("Non", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i)
                     {
                         Toast.makeText(context, "Ravis de votre présence", Toast.LENGTH_SHORT).show();
                     }
                 });
-                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener()
-                {
+                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i)
                     {
@@ -121,6 +127,5 @@ public class Profile_Fragment extends Fragment {
                 dialog.show();
             }
         });
-
     }
 }
