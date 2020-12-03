@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         SearchBookList_Fragment.SearchBookListInterface,
         MyBooks_Fragment.MyBookInterface,
         MyRentedBooks_Fragment.RentedBooksInterface,
-        AddBook_Fragment.AddBookInterface{
+        AddBook_Fragment.AddBookInterface,
+        ModifyBook_Fragment.ModifyBookInterface{
 
     BottomNavigationView bottomNav;
     Research_Fragment researchFragment;
@@ -257,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
 
 
 
-    public boolean checkFieldBasic(String field, String fieldName, int maxSize, String dataType){
+    public boolean checkFieldBasic(String field, String fieldName, double maxSize, String dataType){
         String errorMessage="tok";
         String regexDigit = "[0-9]+";
         String  regexCaracter = "\\D";

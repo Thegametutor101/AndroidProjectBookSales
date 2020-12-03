@@ -74,7 +74,7 @@ public class AddBook_Fragment extends Fragment {
 
     public interface AddBookInterface
     {
-        boolean checkFieldBasic(String field, String fieldName, int maxSize, String dataType);
+        boolean checkFieldBasic(String field, String fieldName, double maxSize, String dataType);
         int getIdUser();
         void goToProfileFragment();
     }

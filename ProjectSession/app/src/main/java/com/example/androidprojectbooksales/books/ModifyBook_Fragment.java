@@ -52,14 +52,15 @@ import retrofit2.Response;
 
 public class ModifyBook_Fragment extends Fragment {
 
-EditText etTitre, etAuteur, etCategory, etDescription, etPrix;
-Button btnValider, btnEffacer, btnSupprimer, btnBookCover;
-ImageView imCover;
-RadioButton rbAvailable, rbNotAvailable;
-ModifyBook modifyBook;
-File fichierPhoto;
-RadioGroup rgAvailable;
-int available;
+    EditText etTitre, etAuteur, etCategory, etDescription, etPrix;
+    Button btnValider, btnEffacer, btnSupprimer, btnBookCover;
+    ImageView imCover;
+    RadioButton rbAvailable, rbNotAvailable;
+    ModifyBookInterface modifyBook;
+    File fichierPhoto;
+    RadioGroup rgAvailable;
+    int available;
+    String bookID;
 
 
     public ModifyBook_Fragment() {
@@ -70,17 +71,18 @@ int available;
         getBook(id);
     }
 
-    public interface ModifyBook
-    {
-        boolean checkFieldBasic(String field, String fieldName, int maxSize, String dataType);
+    public interface ModifyBookInterface {
+        boolean checkFieldBasic(String field, String fieldName, double maxSize, String dataType);
+
         int getIdUser();
+
         void goToProfileFragment();
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        modifyBook = (ModifyBook)context;
+        modifyBook = (ModifyBookInterface) context;
     }
 
 
@@ -103,29 +105,28 @@ int available;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        etTitre=view.findViewById(R.id.etModifyBookTitle);
-        etAuteur=view.findViewById(R.id.etModifyBookAuthor);
-        etCategory=view.findViewById(R.id.etModifyBookCategory);
-        etDescription=view.findViewById(R.id.etModifyBookSummary);
-        etPrix=view.findViewById(R.id.etModifyBookPrix);
-        btnValider=view.findViewById(R.id.btnModifyBookValidate);
-        btnEffacer=view.findViewById(R.id.btnModifyBookClear);
-        btnSupprimer=view.findViewById(R.id.btnDeleteMyBook);
-        btnBookCover= view.findViewById(R.id.btnChangeBookCover);
-        imCover=view.findViewById(R.id.imModifyBook);
-        rbAvailable=view.findViewById(R.id.rbModifyBookAvailableYes);
-        rbNotAvailable=view.findViewById(R.id.rbModifyBookAvailableNo);
-        rgAvailable=view.findViewById(R.id.rgModifyBookAvailable);
+        etTitre = view.findViewById(R.id.etModifyBookTitle);
+        etAuteur = view.findViewById(R.id.etModifyBookAuthor);
+        etCategory = view.findViewById(R.id.etModifyBookCategory);
+        etDescription = view.findViewById(R.id.etModifyBookSummary);
+        etPrix = view.findViewById(R.id.etModifyBookPrix);
+        btnValider = view.findViewById(R.id.btnModifyBookValidate);
+        btnEffacer = view.findViewById(R.id.btnModifyBookClear);
+        btnSupprimer = view.findViewById(R.id.btnDeleteMyBook);
+        btnBookCover = view.findViewById(R.id.btnChangeBookCover);
+        imCover = view.findViewById(R.id.imModifyBook);
+        rbAvailable = view.findViewById(R.id.rbModifyBookAvailableYes);
+        rbNotAvailable = view.findViewById(R.id.rbModifyBookAvailableNo);
+        rgAvailable = view.findViewById(R.id.rgModifyBookAvailable);
 
-        rgAvailable.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        rgAvailable.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch(checkedId){
+                switch (checkedId) {
                     case R.id.rbAddBookAvailbleYes:
-                        available=1;
+                        available = 1;
                         break;
                     case R.id.rbAddBookAvailbleNo:
-                        available=0;
+                        available = 0;
                         break;
                 }
             }
@@ -134,11 +135,11 @@ int available;
         btnValider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(     modifyBook.checkFieldBasic(etTitre.getText().toString(), "titre", 250, "None") &&
-                        modifyBook.checkFieldBasic(etAuteur.getText().toString(),"auteur",202,"CaracterOnly") &&
-                        modifyBook.checkFieldBasic(etCategory.getText().toString(),"catégorie",200,"CaracterOnly") &&
-                        modifyBook.checkFieldBasic(etDescription.getText().toString(),"description",2000000000,"No") &&
-                        modifyBook.checkFieldBasic(etPrix.getText().toString(),"prix",0,("NumberOnly"))){
+                if (modifyBook.checkFieldBasic(etTitre.getText().toString(), "titre", 250, "None") &&
+                        modifyBook.checkFieldBasic(etAuteur.getText().toString(), "auteur", 202, "CaracterOnly") &&
+                        modifyBook.checkFieldBasic(etCategory.getText().toString(), "catégorie", 200, "CaracterOnly") &&
+                        modifyBook.checkFieldBasic(etDescription.getText().toString(), "description", 2000000000, "No") &&
+                        modifyBook.checkFieldBasic(etPrix.getText().toString(), "prix", 0, ("NumberOnly"))) {
                     sauvegarderImage();
                     etTitre.setText("");
                     etAuteur.setText("");
@@ -167,16 +168,21 @@ int available;
 
         btnBookCover.setVisibility(View.INVISIBLE);
 
-        if (verifierPermissions()){
+        if (verifierPermissions()) {
             lancerProgramme();
         }
+
+        btnSupprimer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteBook();
+            }
+        });
 
     }
 
 
-
-
-    public void getBook(String id){
+    public void getBook(String id) {
         InterfaceServeur server = RetrofitInstance.getInstance().create(InterfaceServeur.class);
         Call<Book> getBook = server.getBook("y", id);
 
@@ -191,17 +197,18 @@ int available;
                 etCategory.setText(book.getCategory());
                 etDescription.setText(book.getDescription());
                 etPrix.setText(Double.toString(book.getPrice()));
-                if(book.available==1){
+                if (book.available == 1) {
                     rbAvailable.setChecked(true);
+                } else {
+                    rbNotAvailable.setChecked(true);
                 }
-                else{
-                    rbNotAvailable.setChecked(false);
-                }
+
+                bookID=book.getId();
             }
 
             @Override
             public void onFailure(Call<Book> call, Throwable t) {
-                Toast.makeText(getActivity(),"Erreur au chargement du livre", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Erreur au chargement du livre", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -218,8 +225,7 @@ int available;
         }
     }
 
-    public void lancerProgramme()
-    {
+    public void lancerProgramme() {
         btnBookCover.setVisibility(View.VISIBLE);
         btnBookCover.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,7 +248,7 @@ int available;
             }
             // on continue si le fichier est créé correctement
             if (fichierPhoto != null) {
-                Uri photoURI = FileProvider.getUriForFile( getActivity(),
+                Uri photoURI = FileProvider.getUriForFile(getActivity(),
                         "com.example.androidprojectbooksales.fileprovider",
                         fichierPhoto);
 
@@ -269,25 +275,21 @@ int available;
     }
 
 
-    public boolean verifierPermissions()
-    {
-        String[] permissions = {Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    public boolean verifierPermissions() {
+        String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
         List<String> listePermissionsADemander = new ArrayList<>();
 
-        for(int i=0; i< permissions.length; i++)
-        {
-            if(ContextCompat.checkSelfPermission(getActivity(),permissions[i]) != PackageManager.PERMISSION_GRANTED)
-            {
+        for (int i = 0; i < permissions.length; i++) {
+            if (ContextCompat.checkSelfPermission(getActivity(), permissions[i]) != PackageManager.PERMISSION_GRANTED) {
                 listePermissionsADemander.add(permissions[i]);
             }
         }
 
-        if(listePermissionsADemander.isEmpty())
+        if (listePermissionsADemander.isEmpty())
             return true;
-        else
-        {
-            ActivityCompat.requestPermissions(getActivity(), listePermissionsADemander.toArray(new String[listePermissionsADemander.size()]),1111 );
+        else {
+            ActivityCompat.requestPermissions(getActivity(), listePermissionsADemander.toArray(new String[listePermissionsADemander.size()]), 1111);
 
             return false;
         }
@@ -298,14 +300,13 @@ int available;
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         int nbPermissionsRefusees = 0;
 
-        for(int i = 0; i<grantResults.length; i++ )
-        {
+        for (int i = 0; i < grantResults.length; i++) {
             if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
                 nbPermissionsRefusees++;
             }
         }
 
-        if(nbPermissionsRefusees > 0)
+        if (nbPermissionsRefusees > 0)
             Toast.makeText(getActivity(), "Veuillez accepter les permissions", Toast.LENGTH_LONG).show();
         else
             lancerProgramme();
@@ -313,45 +314,101 @@ int available;
 
 
     public void sauvegarderImage() {
-        MediaType mediaType = MediaType.parse("image/*");
-        RequestBody fichier_requete = RequestBody.create(mediaType, fichierPhoto);
+        if (fichierPhoto == null) {
+            String part_mobile = "y";
 
-        String part_mobile ="y";
+            String part_id=bookID;
 
-        String part_title = etTitre.getText().toString();
+            String part_title = etTitre.getText().toString();
 
-        String part_author = etAuteur.getText().toString();
+            String part_author = etAuteur.getText().toString();
 
-        String part_category = etCategory.getText().toString();
+            String part_category = etCategory.getText().toString();
 
-        String part_summary = etDescription.getText().toString();
+            String part_summary = etDescription.getText().toString();
 
-        String part_available = String.valueOf(available);
+            String part_available = String.valueOf(available);
 
-        String part_price = etPrix.getText().toString();
+            String part_price = etPrix.getText().toString();
 
-        MultipartBody.Part part_fichier = MultipartBody.Part.createFormData("cover",
-                fichierPhoto.getName(),
-                fichier_requete);
-
-        String part_owner = String.valueOf(modifyBook.getIdUser());
+            String part_owner = String.valueOf(modifyBook.getIdUser());
 
 
-        InterfaceServeur serveur = RetrofitInstance.getInstance().create(InterfaceServeur.class);
-        Call<String> updateBookCall = serveur.updateBook(part_mobile,part_title,part_author,part_category,part_summary,part_available,part_price,part_fichier,part_owner);
-        updateBookCall.enqueue(new Callback<String>() {
+
+            InterfaceServeur serveur = RetrofitInstance.getInstance().create(InterfaceServeur.class);
+            Call<String> updateBookWithoutCoverCall = serveur.updateBookWithoutCover(part_mobile,part_id, part_title, part_author, part_category, part_summary, part_available, part_price, part_owner);
+            updateBookWithoutCoverCall.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    Toast.makeText(getActivity(), "Le livre à bien été ajouté", Toast.LENGTH_SHORT).show();
+                    modifyBook.goToProfileFragment();
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    Toast.makeText(getActivity(), "Une erreur est survenue, veuillez réessayer", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        } else {
+            MediaType mediaType = MediaType.parse("image/*");
+            RequestBody fichier_requete = RequestBody.create(mediaType, fichierPhoto);
+
+            String part_mobile = "y";
+
+            String part_id=bookID;
+
+            String part_title = etTitre.getText().toString();
+
+            String part_author = etAuteur.getText().toString();
+
+            String part_category = etCategory.getText().toString();
+
+            String part_summary = etDescription.getText().toString();
+
+            String part_available = String.valueOf(available);
+
+            String part_price = etPrix.getText().toString();
+
+            MultipartBody.Part part_fichier = MultipartBody.Part.createFormData("cover",
+                    fichierPhoto.getName(),
+                    fichier_requete);
+
+            String part_owner = String.valueOf(modifyBook.getIdUser());
+
+            InterfaceServeur serveur = RetrofitInstance.getInstance().create(InterfaceServeur.class);
+            Call<String> updateBookCall = serveur.updateBook(part_mobile,part_id, part_title, part_author, part_category, part_summary, part_available, part_price, part_fichier, part_owner);
+            updateBookCall.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    Toast.makeText(getActivity(), "Le livre à bien été ajouté", Toast.LENGTH_SHORT).show();
+                    modifyBook.goToProfileFragment();
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    Toast.makeText(getActivity(), "Une erreur est survenue, veuillez réessayer", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+
+    }
+
+    public void deleteBook(){
+        InterfaceServeur server = RetrofitInstance.getInstance().create(InterfaceServeur.class);
+        Call<Void> deleteBook = server.deleteBook(bookID);
+
+        deleteBook.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                Toast.makeText(getActivity(), "Le livre à bien été ajouté", Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 modifyBook.goToProfileFragment();
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(getActivity(), "Une erreur est survenue, veuillez réessayer", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getActivity(),"Erreur lors de la suppression", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
-
 }

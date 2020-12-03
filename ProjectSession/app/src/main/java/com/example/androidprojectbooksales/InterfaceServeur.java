@@ -42,6 +42,7 @@ public interface InterfaceServeur {
     @POST("Management/updateBook.php")
     Call<String> updateBook(
             @Part ("mobile") String part_mobile,
+            @Part ("id") String part_id,
             @Part ("title") String part_title,
             @Part ("author") String part_author,
             @Part ("category") String part_category,
@@ -49,6 +50,20 @@ public interface InterfaceServeur {
             @Part ("available") String part_available,
             @Part ("price") String part_price,
             @Part MultipartBody.Part part_fichier,
+            @Part ("owner") String part_owner
+    );
+
+    @Multipart
+    @POST("Management/updateBook.php")
+    Call<String> updateBookWithoutCover(
+            @Part ("mobile") String part_mobile,
+            @Part ("id") String part_id,
+            @Part ("title") String part_title,
+            @Part ("author") String part_author,
+            @Part ("category") String part_category,
+            @Part ("description") String part_summary,
+            @Part ("available") String part_available,
+            @Part ("price") String part_price,
             @Part ("owner") String part_owner
     );
 
