@@ -69,7 +69,7 @@ public interface InterfaceServeur {
 
     @POST("Management/addUser.php")
     @FormUrlEncoded
-    Call<Void> addUser(@Field("mobile") String mobile,@Field("firstName") String firstNameUser,@Field("lastName") String lastNameUser,@Field("email") String emailUser,@Field("phone") String phoneUser, @Field("password") String passwordUser);
+    Call<Void> addUser(@Field("mobile") String mobile,@Field("firstName") String firstNameUser,@Field("lastName") String lastNameUser,@Field("email") String emailUser,@Field("phone") String phoneUser, @Field("password") String passwordUser, @Field("adress") String adressUser);
 
     @POST("Management/deleteBook.php")
     @FormUrlEncoded
@@ -117,9 +117,9 @@ public interface InterfaceServeur {
 
     @POST("Management/updateUser.php")
     @FormUrlEncoded
-    Call<String> updateUser(@Field("mobile") String mobile, @Field("id") int id, @Field("firstName") String firstNameUser,@Field("lastName") String lastNameUser,@Field("email") String emailUser,@Field("phone") String phoneUser);
+    Call<String> updateUser(@Field("mobile") String mobile, @Field("id") int id, @Field("firstName") String firstNameUser,@Field("lastName") String lastNameUser,@Field("email") String emailUser,@Field("phone") String phoneUser, @Field("adress") String adressUser);
 
     @POST("Management/updateUser.php")
     @FormUrlEncoded
-    Call<String> updateUserWithPassword(@Field("mobile") String mobile, @Field("id") int id, @Field("firstName") String firstNameUser,@Field("lastName") String lastNameUser,@Field("email") String emailUser,@Field("phone") String phoneUser, @Field("password") String passwordUser);
+    Call<String> updateUserWithPassword(@Field("mobile") String mobile, @Field("id") int id, @Field("firstName") String firstNameUser,@Field("lastName") String lastNameUser,@Field("email") String emailUser,@Field("phone") String phoneUser, @Field("password") String passwordUser, @Field("adress") String adressUser);
 }

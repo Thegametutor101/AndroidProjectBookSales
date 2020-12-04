@@ -37,9 +37,10 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         SearchBookList_Fragment.SearchBookListInterface,
         MyBooks_Fragment.MyBookInterface,
         AddBook_Fragment.AddBookInterface,
-        ModifyBook_Fragment.ModifyBookInterface{
+        ModifyBook_Fragment.ModifyBookInterface,
         MyRentedBooks_Fragment.RentedBooksInterface,
-        ViewProfile_Fragment.ViewProfileInterface {
+        ViewProfile_Fragment.ViewProfileInterface,
+        AddUser_Fragment.NewUserInterface{
 
     BottomNavigationView bottomNav;
     Research_Fragment researchFragment;
@@ -109,6 +110,9 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
                         } else {
                             goToProfileFragment();
                         }
+                        return true;
+                    case R.id.btnMenuMap:
+                        menuItem.setVisible(true);
                         return true;
                 }
                 return false;
@@ -286,16 +290,6 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
             Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
             return false;
             }
-        }
-        else if((dataType=="NumberOnly") && field.matches(regexDigit) && Double.parseDouble(field)<=0){
-            errorMessage="Le champs "+fieldName+" doit contenir une valeure supérieure à zéro";
-            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
-            return false;
-        }
-        else if((dataType=="NumberOnly") && !(field.matches(regexDigit))){
-            errorMessage="Le champs "+fieldName+" ne doit contenir que des valeurs numériques";
-            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
-            return false;
         }
         else if((dataType=="CaracterOnly") && !(field.matches(regexCaracter))){
             errorMessage="Le champs "+fieldName+" ne doit contenir que des valeurs non-numérique";

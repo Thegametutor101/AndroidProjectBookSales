@@ -35,24 +35,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.http.Field;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ViewProfile_Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ViewProfile_Fragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     ImageView imgViewProfilePicture;
     TextView tvPassword;
-    EditText etFirstName, etLastName, etEmail, etPhone, etNewPassword, etNewPasswordConfirm;
+    EditText etFirstName, etLastName, etEmail, etPhone, etNewPassword, etNewPasswordConfirm, etAdresse;
     Button btnSave, btnReset;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     boolean validEmail = true;
@@ -67,38 +54,12 @@ public class ViewProfile_Fragment extends Fragment {
         int getIdUser();
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ViewProfile_Fragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ViewProfile_Fragment newInstance(String param1, String param2) {
-        ViewProfile_Fragment fragment = new ViewProfile_Fragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         viewProfileInterface = (ViewProfileInterface) context;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -118,6 +79,7 @@ public class ViewProfile_Fragment extends Fragment {
         etPhone = view.findViewById(R.id.etPhone);
         etNewPassword = view.findViewById(R.id.etNewPassword);
         etNewPasswordConfirm = view.findViewById(R.id.etNewPasswordConfirm);
+        etAdresse= view.findViewById(R.id.etAdressViewProfile);
         btnSave = view.findViewById(R.id.btnSave);
         btnReset = view.findViewById(R.id.btnReset);
         Picasso.get().load("http://206.167.140.56:8080/A2020/420505RI/Equipe_6/AppBundle/ressources/userPictures/"
@@ -207,6 +169,7 @@ public class ViewProfile_Fragment extends Fragment {
                 etLastName.setText(user.getLastName());
                 etEmail.setText(user.getEmail());
                 etPhone.setText(user.getPhone());
+                etAdresse.setText(user.getAdress());
             }
 
             @Override
@@ -227,14 +190,16 @@ public class ViewProfile_Fragment extends Fragment {
                     etLastName.getText().toString().trim(),
                     etEmail.getText().toString().trim(),
                     etPhone.getText().toString().trim(),
-                    etNewPassword.getText().toString().trim());
+                    etNewPassword.getText().toString().trim(),
+                    etAdresse.getText().toString().trim());
         } else {
             updateUser = server.updateUser("y",
                     viewProfileInterface.getIdUser(),
                     etFirstName.getText().toString().trim(),
                     etLastName.getText().toString().trim(),
                     etEmail.getText().toString().trim(),
-                    etPhone.getText().toString().trim());
+                    etPhone.getText().toString().trim(),
+                    etAdresse.getText().toString().trim());
         }
 
         updateUser.enqueue(new Callback<String>() {

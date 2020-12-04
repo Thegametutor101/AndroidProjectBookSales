@@ -1,5 +1,6 @@
 package com.example.androidprojectbooksales.user;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,10 +26,22 @@ import retrofit2.Response;
 public class AddUser_Fragment extends Fragment {
 
     ImageButton btnAdd, btnClear;
-    EditText etFirstName, etLastName, etEmail, etPhone, etPassword;
+    EditText etFirstName, etLastName, etEmail, etPhone, etPassword, etAdresse;
+    NewUserInterface newUserInterface;
 
     public AddUser_Fragment() {
         // Required empty public constructor
+    }
+
+    public interface NewUserInterface {
+        void goToProfileFragment();
+        void setLoginInfo(int idUser);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        newUserInterface = (NewUserInterface) context;
     }
 
     @Override
@@ -55,7 +68,7 @@ public class AddUser_Fragment extends Fragment {
         etEmail=view.findViewById(R.id.etNewUserEmail);
         etPhone=view.findViewById(R.id.etNewUserPhone);
         etPassword=view.findViewById(R.id.etNewUserPassword);
-
+        etAdresse=view.findViewById(R.id.etAdressNewUser);
         btnAdd=view.findViewById(R.id.btnValiderNewUser);
         btnClear=view.findViewById(R.id.btnResetNewUser);
 
@@ -66,7 +79,8 @@ public class AddUser_Fragment extends Fragment {
                         etLastName.getText().toString(),
                         etEmail.getText().toString(),
                         etPhone.getText().toString(),
-                        etPassword.getText().toString());
+                        etPassword.getText().toString(),
+                        etAdresse.getText().toString());
             }
         });
 
@@ -78,24 +92,60 @@ public class AddUser_Fragment extends Fragment {
                 etEmail.setText("");
                 etPhone.setText("");
                 etPassword.setText("");
+                etAdresse.setText("");
             }
         });
     }
 
 
-    public void addUser(String fisrtNameUser,String lastNameUser,String emailUser,String phoneUser, String passwordUser){
+    public void addUser(String fisrtNameUser,String lastNameUser,String emailUser,String phoneUser, String passwordUser, String adressUser){
         InterfaceServeur serveur = RetrofitInstance.getInstance().create(InterfaceServeur.class);
-        Call<Void> addUserCall = serveur.addUser("y",fisrtNameUser,lastNameUser,emailUser,phoneUser,passwordUser);
+        Call<Void> addUserCall = serveur.addUser("y",fisrtNameUser,lastNameUser,emailUser,phoneUser,passwordUser,adressUser);
 
 
         addUserCall.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 Toast.makeText(getActivity(),"Utilisateur crée", Toast.LENGTH_SHORT).show();
+                login(etEmail.getText().toString(),etPassword.getText().toString());
+                etFirstName.setText("");
+                etLastName.setText("");
+                etEmail.setText("");
+                etPhone.setText("");
+                etPassword.setText("");
+                etAdresse.setText("");
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getActivity(),"Une erreur est survenue, veuillez réessayer", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    public void login(String email,String password){
+        InterfaceServeur serveur = RetrofitInstance.getInstance().create(InterfaceServeur.class);
+        Call<String> loginCall = serveur.login("y",email,password);
+
+        loginCall.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.body() == "no") {
+                    Toast.makeText(getActivity(),"Mot de passe ou Courriel invalide", Toast.LENGTH_SHORT).show();
+                } else if (response.body() == "not email") {
+                    Toast.makeText(getActivity(),"Veuillex entrer un courriel valide", Toast.LENGTH_SHORT).show();
+                } else if (response.body() == "error") {
+                    Toast.makeText(getActivity(),"Une erreur est survenue, veuillez réessayer", Toast.LENGTH_SHORT).show();
+                } else {
+                    assert response.body() != null;
+                    newUserInterface.setLoginInfo(Integer.parseInt(response.body()));
+                    newUserInterface.goToProfileFragment();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(getActivity(),"Une erreur est survenue, veuillez réessayer", Toast.LENGTH_SHORT).show();
             }
         });

@@ -16,14 +16,17 @@ public class User {
     String phone;
     @SerializedName("password")
     String password;
+    @SerializedName("adress")
+    String adress;
 
-    public User(String id, String firstName, String lastName, String email, String phone, String password) {
+    public User(String id, String firstName, String lastName, String email, String phone, String password, String adress) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.password = password;
+        this.adress = adress;
     }
 
     public String getId() {
@@ -70,7 +73,15 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String adress) {
         this.password = password;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
     }
 }
