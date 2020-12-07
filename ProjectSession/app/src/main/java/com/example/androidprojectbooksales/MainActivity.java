@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
     SearchBookList_Fragment searchBookListFragment;
     MyRentedBooks_Fragment myRentedBooksFragment;
     ViewProfile_Fragment viewProfileFragment;
+    Map_Fragment mapFragment;
 
     ViewBookBroadcastReceiver viewBookBroadcastReceiver;
 
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
         addBookFragment = new AddBook_Fragment();
         bookListFragment = new BookList_Fragment();
         myBooks_fragment = new MyBooks_Fragment();
+        mapFragment = new Map_Fragment();
         viewBookBroadcastReceiver = new ViewBookBroadcastReceiver();
 
         fragmentManager = getSupportFragmentManager();
@@ -113,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
                         return true;
                     case R.id.btnMenuMap:
                         menuItem.setVisible(true);
+                        goToMapFragment();
                         return true;
                 }
                 return false;
@@ -153,6 +156,12 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
                 return super.onOptionsItemSelected(item);
             }
         }
+    }
+
+    public void goToMapFragment(){
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flFragment,mapFragment);
+        fragmentTransaction.commit();
     }
 
     public void goToAddUserFragment(){
@@ -284,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
             Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
             return false;
         }
-        else if(!(field.matches(regexDigit))){
+        else if(!(dataType=="NumberOnly") && !(field.matches(regexDigit))){
             if(field.length()>=maxSize){
             errorMessage="Le champs "+fieldName+" dépasse la limite de caractère";
             Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
