@@ -198,8 +198,10 @@ public class ModifyBook_Fragment extends Fragment {
                 etDescription.setText(book.getDescription());
                 etPrix.setText(Double.toString(book.getPrice()));
                 if (book.available == 1) {
+                    available=1;
                     rbAvailable.setChecked(true);
                 } else {
+                    available=0;
                     rbNotAvailable.setChecked(true);
                 }
 
