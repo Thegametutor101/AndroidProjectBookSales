@@ -267,7 +267,6 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
             else{
                 goToViewBook(id, type);
             }
-
         }
     }
 
