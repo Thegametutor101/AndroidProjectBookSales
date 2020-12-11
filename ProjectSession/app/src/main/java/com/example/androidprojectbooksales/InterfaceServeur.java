@@ -71,6 +71,9 @@ public interface InterfaceServeur {
     @FormUrlEncoded
     Call<Void> addUser(@Field("mobile") String mobile,@Field("firstName") String firstNameUser,@Field("lastName") String lastNameUser,@Field("email") String emailUser,@Field("phone") String phoneUser, @Field("password") String passwordUser, @Field("adress") String adressUser);
 
+    @POST("Management/getUserWithBook.php")
+    Call<List<User>> getUserWithBook();
+
     @POST("Management/deleteBook.php")
     @FormUrlEncoded
     Call<Void> deleteBook(@Field("id") String idBook);
@@ -105,7 +108,7 @@ public interface InterfaceServeur {
 
     @POST("Management/login.php")
     @FormUrlEncoded
-    Call<String> login(@Field("mobile") String mobile, @Field("email") String emailUser, @Field("password") String passwordUser);
+    Call<User> login(@Field("mobile") String mobile, @Field("email") String emailUser, @Field("password") String passwordUser);
 
     @POST("Management/rentBook.php")
     @FormUrlEncoded

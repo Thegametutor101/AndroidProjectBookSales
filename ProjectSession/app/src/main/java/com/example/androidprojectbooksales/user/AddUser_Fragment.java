@@ -35,7 +35,7 @@ public class AddUser_Fragment extends Fragment {
 
     public interface NewUserInterface {
         void goToProfileFragment();
-        void setLoginInfo(int idUser);
+        void setLoginInfo(int idUser, String ext);
     }
 
     @Override
@@ -126,26 +126,27 @@ public class AddUser_Fragment extends Fragment {
 
     public void login(String email,String password){
         InterfaceServeur serveur = RetrofitInstance.getInstance().create(InterfaceServeur.class);
-        Call<String> loginCall = serveur.login("y",email,password);
+        Call<User> loginCall = serveur.login("y",email,password);
 
-        loginCall.enqueue(new Callback<String>() {
+        loginCall.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.body() == "no") {
+            public void onResponse(Call<User> call, Response<User> response) {
+               /* if (response.body() == "no") {
                     Toast.makeText(getActivity(),"Mot de passe ou Courriel invalide", Toast.LENGTH_SHORT).show();
                 } else if (response.body() == "not email") {
                     Toast.makeText(getActivity(),"Veuillex entrer un courriel valide", Toast.LENGTH_SHORT).show();
                 } else if (response.body() == "error") {
                     Toast.makeText(getActivity(),"Une erreur est survenue, veuillez réessayer", Toast.LENGTH_SHORT).show();
-                } else {
+                } else {*/
                     assert response.body() != null;
-                    newUserInterface.setLoginInfo(Integer.parseInt(response.body()));
+                    User user = response.body();
+                    newUserInterface.setLoginInfo(Integer.parseInt(user.getId()),user.getExt());
                     newUserInterface.goToProfileFragment();
-                }
+                //}
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 Toast.makeText(getActivity(),"Une erreur est survenue, veuillez réessayer", Toast.LENGTH_SHORT).show();
             }
         });

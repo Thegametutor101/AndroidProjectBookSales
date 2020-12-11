@@ -18,6 +18,19 @@ public class User {
     String password;
     @SerializedName("adress")
     String adress;
+    @SerializedName("ext")
+    String ext="png";
+
+    public User(String id, String firstName, String lastName, String email, String phone, String password, String adress, String ext) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+        this.adress = adress;
+        this.ext = ext;
+    }
 
     public User(String id, String firstName, String lastName, String email, String phone, String password, String adress) {
         this.id = id;
@@ -27,6 +40,19 @@ public class User {
         this.phone = phone;
         this.password = password;
         this.adress = adress;
+        this.ext="png";
+    }
+
+    public User() {
+        this.ext="png";
+    }
+
+    public String getExt() {
+        return ext;
+    }
+
+    public void setExt(String ext) {
+        this.ext = ext;
     }
 
     public String getId() {

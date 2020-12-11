@@ -247,15 +247,22 @@ public class MainActivity extends AppCompatActivity implements Login_Fragment.Lo
     }
 
 
-    public void setLoginInfo(int idUser){
+    public void setLoginInfo(int idUser, String ext){
         editor.putBoolean("connected", true);
         editor.putInt("idUser", idUser);
+        editor.putString("extension",ext);
         editor.commit();
     }
 
     public int getIdUser(){
         return pref.getInt("idUser",-1);
     }
+
+
+    public String getExtension(){
+        return pref.getString("extension","png");
+    }
+
 
     public void disconnectUser(){
         editor.putBoolean("connected", false);

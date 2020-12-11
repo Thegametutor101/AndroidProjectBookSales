@@ -60,7 +60,7 @@
                     android:gravity="center|center_horizontal|center_vertical"
                     android:hint="example@gmail.com"
                     android:inputType="textPersonName"
-                    android:text="theendercraftgaming@gmail.com"
+                    android:text="admin@gmail.com"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -92,7 +92,7 @@
                     android:ems="10"
                     android:gravity="center|center_horizontal|center_vertical"
                     android:inputType="textPassword"
-                    android:text="Secret1234"
+                    android:text="admin"
                     android:textSize="18sp" />
             </LinearLayout>
 

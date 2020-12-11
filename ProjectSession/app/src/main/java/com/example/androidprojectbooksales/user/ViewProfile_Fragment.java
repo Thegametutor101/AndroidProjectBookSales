@@ -52,6 +52,7 @@ public class ViewProfile_Fragment extends Fragment {
     public interface ViewProfileInterface {
         void goToBookListFragment();
         int getIdUser();
+        String getExtension();
     }
 
     @Override
@@ -83,7 +84,7 @@ public class ViewProfile_Fragment extends Fragment {
         btnSave = view.findViewById(R.id.btnSave);
         btnReset = view.findViewById(R.id.btnReset);
         Picasso.get().load("http://206.167.140.56:8080/A2020/420505RI/Equipe_6/AppBundle/ressources/userPictures/"
-                + viewProfileInterface.getIdUser() + ".png").resize(300, 300).into(imgViewProfilePicture);
+                + viewProfileInterface.getIdUser() + "."+viewProfileInterface.getExtension()).resize(300, 300).into(imgViewProfilePicture);
         getUser(viewProfileInterface.getIdUser());
         etEmail.addTextChangedListener(new TextWatcher() {
             @Override

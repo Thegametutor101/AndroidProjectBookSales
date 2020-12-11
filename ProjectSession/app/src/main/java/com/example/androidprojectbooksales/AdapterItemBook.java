@@ -43,7 +43,7 @@ public class AdapterItemBook extends RecyclerView.Adapter<AdapterItemBook.BookVi
         holder.tvBookId.setText(p.getId());
         holder.tvBookTitle.setText(p.getTitle());
         Picasso.get().load("http://206.167.140.56:8080/A2020/420505RI/Equipe_6/AppBundle/ressources/bookPictures/"
-                + p.getId() + ".png").resize(110, 150).into(holder.imgBookCover);
+                + p.getId() + "."+p.getExt()).resize(110, 150).into(holder.imgBookCover);
     }
 
     @Override
