@@ -128,7 +128,12 @@ public class ViewProfile_Fragment extends Fragment {
                         if (tvPassword.getText().toString().equals(input.getText().toString())) {
                             if (validEmail) {
                                 if (etNewPassword.getText().toString().trim().equals(etNewPasswordConfirm.getText().toString().trim())) {
-                                    updateUser();
+                                    if(!(etAdresse.getText().toString()=="")){
+                                        updateUser();
+                                    }
+                                    else{
+                                        Toast.makeText(getActivity(),"Le champs adresse dois contenir une valeurs", Toast.LENGTH_SHORT).show();
+                                    }
                                 } else {
                                     Toast.makeText(getActivity(),"Nouveau mot de passe n'est pas identique.", Toast.LENGTH_SHORT).show();
                                 }

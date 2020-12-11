@@ -36,6 +36,7 @@ public class AddUser_Fragment extends Fragment {
     public interface NewUserInterface {
         void goToProfileFragment();
         void setLoginInfo(int idUser, String ext);
+        boolean checkFieldBasic(String field, String fieldName, double maxSize, String dataType);
     }
 
     @Override
@@ -75,12 +76,23 @@ public class AddUser_Fragment extends Fragment {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addUser(etFirstName.getText().toString(),
-                        etLastName.getText().toString(),
-                        etEmail.getText().toString(),
-                        etPhone.getText().toString(),
-                        etPassword.getText().toString(),
-                        etAdresse.getText().toString());
+
+                if(newUserInterface.checkFieldBasic(etFirstName.getText().toString(),"prénom",100, "CaracterOnly") &&
+                        newUserInterface.checkFieldBasic(etLastName.getText().toString(),"nom",100, "CaracterOnly") &&
+                        newUserInterface.checkFieldBasic(etEmail.getText().toString(),"email",100, "Email") &&
+                        newUserInterface.checkFieldBasic(etPhone.getText().toString(),"téléphone",100, "NumberOnly") &&
+                        newUserInterface.checkFieldBasic(etPassword.getText().toString(),"mot de passe",200, "no") &&
+                        newUserInterface.checkFieldBasic(etAdresse.getText().toString(),"adresse",500, "no")
+                    ){
+                    addUser(etFirstName.getText().toString(),
+                            etLastName.getText().toString(),
+                            etEmail.getText().toString(),
+                            etPhone.getText().toString(),
+                            etPassword.getText().toString(),
+                            etAdresse.getText().toString());
+                }
+
+
             }
         });
 
