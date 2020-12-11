@@ -2,7 +2,10 @@ package com.example.androidprojectbooksales;
 
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.androidprojectbooksales.books.AddBook_Fragment;
+import com.example.androidprojectbooksales.books.Book;
+import com.example.androidprojectbooksales.user.User;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -23,18 +29,23 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Map_Fragment extends Fragment {
 
     private MapView mMapView;
     private GoogleMap googleMap;
+    List<User> userWithBook;
 
     public Map_Fragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,9 +55,6 @@ public class Map_Fragment extends Fragment {
         }
     }
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,9 +62,11 @@ public class Map_Fragment extends Fragment {
         inflater.inflate(R.layout.map_fragment, container, false);
 
         View view = inflater.inflate(R.layout.map_fragment, null, false);
+        getUserWithBook();
         mMapView = (MapView) view.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
+
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
         } catch (Exception e) {
@@ -66,23 +76,7 @@ public class Map_Fragment extends Fragment {
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
-                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
-                }
-                googleMap.setMyLocationEnabled(true);
-                //To add marker
-                LatLng sydney = new LatLng(-34, 151);
-                googleMap.addMarker(new MarkerOptions().position(sydney).title("Title").snippet("Marker Description"));
-                // For zooming functionality
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
-                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                addMarker();
             }
         });
         return view;
@@ -150,4 +144,59 @@ public class Map_Fragment extends Fragment {
         //else
             //lancerProgramme();
     }
+
+
+    public void getUserWithBook(){
+        InterfaceServeur serveur = RetrofitInstance.getInstance().create(InterfaceServeur.class);
+        Call<List<User>> getUserWithBookCall = serveur.getUserWithBook();
+
+        getUserWithBookCall.enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                userWithBook=response.body();
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                Toast.makeText(getActivity(),"Une erreur est survenue, veuillez réessayer", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void addMarker() {
+        for(int l=0; l<userWithBook.size(); l++){
+            try{
+                getLocationFromAddress(getContext(),userWithBook.get(l).getAdress());
+                googleMap.addMarker(new MarkerOptions().position(getLocationFromAddress(getContext(),userWithBook.get(l).getAdress())).title(userWithBook.get(l).getId()).snippet("Livre disponible pour la vente"));
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+    public LatLng getLocationFromAddress(Context context,String strAddress) {
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+        for(int l=0; l<=userWithBook.size(); l++){
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+
+            Address location = address.get(0);
+            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+
+        } catch (IOException ex) {
+
+            ex.printStackTrace();
+        }
+        }
+
+        return p1;
+    }
+
+
 }

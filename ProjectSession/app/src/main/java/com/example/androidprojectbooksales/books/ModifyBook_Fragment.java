@@ -191,7 +191,7 @@ public class ModifyBook_Fragment extends Fragment {
             public void onResponse(Call<Book> call, Response<Book> response) {
                 Book book = response.body();
                 Picasso.get().load("http://206.167.140.56:8080/A2020/420505RI/Equipe_6/AppBundle/ressources/bookPictures/"
-                        + book.getId() + ".png").resize(110, 150).into(imCover);
+                        + book.getId() + "."+book.getExt()).resize(110, 150).into(imCover);
                 etTitre.setText(book.getTitle());
                 etAuteur.setText(book.getAuthor());
                 etCategory.setText(book.getCategory());

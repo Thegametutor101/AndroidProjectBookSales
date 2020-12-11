@@ -16,8 +16,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.androidprojectbooksales.InterfaceServeur;
 import com.example.androidprojectbooksales.R;
+import com.example.androidprojectbooksales.RetrofitInstance;
 import com.squareup.picasso.Picasso;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Profile_Fragment extends Fragment {
 
@@ -36,6 +42,7 @@ public class Profile_Fragment extends Fragment {
         void goToMyBookSale();
         void goToMyRentedBooksFragment();
         void goToViewProfileFragment();
+        String getExtension();
     }
 
     @Override
@@ -71,8 +78,16 @@ public class Profile_Fragment extends Fragment {
         btnDisconnect = view.findViewById(R.id.btnDisconnect);
         final Context context = view.getContext();
 
+    /*if (user.getExt()==""){
         Picasso.get().load("http://206.167.140.56:8080/A2020/420505RI/Equipe_6/AppBundle/ressources/userPictures/"
-                + userInterface.getIdUser() + ".png").resize(300, 300).into(imgProfilePicture);
+            + userInterface.getIdUser() + ".png").resize(300, 300).into(imgProfilePicture);
+    }
+    else{
+        Picasso.get().load("http://206.167.140.56:8080/A2020/420505RI/Equipe_6/AppBundle/ressources/userPictures/"
+                + userInterface.getIdUser() + "."+user.getExt()).resize(300, 300).into(imgProfilePicture);
+    }*/
+        Picasso.get().load("http://206.167.140.56:8080/A2020/420505RI/Equipe_6/AppBundle/ressources/userPictures/"
+                + userInterface.getIdUser() + "."+userInterface.getExtension()).resize(300, 300).into(imgProfilePicture);
 
         btnViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +127,7 @@ public class Profile_Fragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i)
                     {
-                        Toast.makeText(context, "Ravis de votre présence", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Ravis de votre présence", Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
@@ -120,7 +135,7 @@ public class Profile_Fragment extends Fragment {
                     public void onClick(DialogInterface dialogInterface, int i)
                     {
                         userInterface.disconnectUser();
-                        Toast.makeText(context, "Bonne journée", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Bonne journée", Toast.LENGTH_SHORT).show();
                     }
                 });
                 AlertDialog dialog = builder.create();
@@ -128,4 +143,5 @@ public class Profile_Fragment extends Fragment {
             }
         });
     }
+
 }

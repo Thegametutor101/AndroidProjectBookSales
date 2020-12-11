@@ -79,6 +79,9 @@ public interface InterfaceServeur {
             @Field("adress") String adressUser
     );
 
+    @POST("Management/getUserWithBook.php")
+    Call<List<User>> getUserWithBook();
+
     @POST("Management/deleteBook.php")
     @FormUrlEncoded
     Call<Void> deleteBook(@Field("id") String idBook);

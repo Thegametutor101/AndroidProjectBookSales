@@ -124,7 +124,7 @@ public class ViewBook_Fragment extends Fragment {
             public void onResponse(Call<Book> call, Response<Book> response) {
                 Book book = response.body();
                 Picasso.get().load("http://206.167.140.56:8080/A2020/420505RI/Equipe_6/AppBundle/ressources/bookPictures/"
-                        + book.getId() + ".png").resize(110, 150).into(imgBookCover);
+                        + book.getId() + "."+book.getExt()).resize(110, 150).into(imgBookCover);
                 tvBookTitle.setText("Titre: \n   " + book.getTitle());
                 tvBookAuthor.setText("Autheur: \n   " + book.getAuthor());
                 tvBookCategory.setText("Catégories: \n   " + book.getCategory());

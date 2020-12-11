@@ -24,6 +24,21 @@ public class Book {
     String owner;
     @SerializedName("rentedBy")
     String rentedBy;
+    @SerializedName("ext")
+    String ext;
+
+    public Book(String id, String title, String author, String category, String description, int available, double price, String owner, String rentedBy, String ext) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.category = category;
+        this.description = description;
+        this.available = available;
+        this.price = price;
+        this.owner = owner;
+        this.rentedBy = rentedBy;
+        this.ext = ext;
+    }
 
     public Book(String id, String title, String author, String category, String description, int available, double price, String owner, String rentedBy) {
         this.id = id;
@@ -119,4 +134,8 @@ public class Book {
     public void setRentedBy(String rentedBy) {
         this.rentedBy = rentedBy;
     }
+
+    public String getExt() { return ext; }
+
+    public void setExt(String ext) { this.ext = ext; }
 }
