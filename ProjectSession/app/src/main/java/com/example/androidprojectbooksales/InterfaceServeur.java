@@ -69,7 +69,15 @@ public interface InterfaceServeur {
 
     @POST("Management/addUser.php")
     @FormUrlEncoded
-    Call<Void> addUser(@Field("mobile") String mobile,@Field("firstName") String firstNameUser,@Field("lastName") String lastNameUser,@Field("email") String emailUser,@Field("phone") String phoneUser, @Field("password") String passwordUser, @Field("adress") String adressUser);
+    Call<Void> addUser(
+            @Field("mobile") String mobile,
+            @Field("firstName") String firstNameUser,
+            @Field("lastName") String lastNameUser,
+            @Field("email") String emailUser,
+            @Field("phone") String phoneUser,
+            @Field("password") String passwordUser,
+            @Field("adress") String adressUser
+    );
 
     @POST("Management/getUserWithBook.php")
     Call<List<User>> getUserWithBook();
@@ -104,25 +112,59 @@ public interface InterfaceServeur {
 
     @POST("Management/loadBooks.php")
     @FormUrlEncoded
-    Call<List<Book>> loadBooksSearch(@Field("mobile") String mobile, @Field("searchValue") String searchValue, @Field("searchFilter") String searchFilter, @Field("searchFilter") String searchSort);
+    Call<List<Book>> loadBooksSearch(
+            @Field("mobile") String mobile,
+            @Field("searchValue") String searchValue,
+            @Field("searchFilter") String searchFilter,
+            @Field("searchFilter") String searchSort
+    );
 
     @POST("Management/login.php")
     @FormUrlEncoded
-    Call<User> login(@Field("mobile") String mobile, @Field("email") String emailUser, @Field("password") String passwordUser);
+    Call<String> login(
+            @Field("mobile") String mobile,
+            @Field("email") String emailUser,
+            @Field("password") String passwordUser
+    );
 
     @POST("Management/rentBook.php")
     @FormUrlEncoded
-    Call<String> rentBook(@Field("mobile") String mobile, @Field("bookID") String bookID, @Field("userID") int userID);
+    Call<String> rentBook(
+            @Field("mobile") String mobile,
+            @Field("bookID") String bookID,
+            @Field("userID") int userID
+    );
 
     @POST("Management/returnBook.php")
     @FormUrlEncoded
-    Call<String> returnBook(@Field("mobile") String mobile, @Field("bookID") String bookID, @Field("userID") int userID);
+    Call<String> returnBook(
+            @Field("mobile") String mobile,
+            @Field("bookID") String bookID,
+            @Field("userID") int userID
+    );
 
     @POST("Management/updateUser.php")
     @FormUrlEncoded
-    Call<String> updateUser(@Field("mobile") String mobile, @Field("id") int id, @Field("firstName") String firstNameUser,@Field("lastName") String lastNameUser,@Field("email") String emailUser,@Field("phone") String phoneUser, @Field("adress") String adressUser);
+    Call<String> updateUser(
+            @Field("mobile") String mobile,
+            @Field("id") int id,
+            @Field("firstName") String firstNameUser,
+            @Field("lastName") String lastNameUser,
+            @Field("email") String emailUser,
+            @Field("phone") String phoneUser,
+            @Field("adress") String adressUser
+    );
 
     @POST("Management/updateUser.php")
     @FormUrlEncoded
-    Call<String> updateUserWithPassword(@Field("mobile") String mobile, @Field("id") int id, @Field("firstName") String firstNameUser,@Field("lastName") String lastNameUser,@Field("email") String emailUser,@Field("phone") String phoneUser, @Field("password") String passwordUser, @Field("adress") String adressUser);
+    Call<String> updateUserWithPassword(
+            @Field("mobile") String mobile,
+            @Field("id") int id,
+            @Field("firstName") String firstNameUser,
+            @Field("lastName") String lastNameUser,
+            @Field("email") String emailUser,
+            @Field("phone") String phoneUser,
+            @Field("password") String passwordUser,
+            @Field("adress") String adressUser
+    );
 }
