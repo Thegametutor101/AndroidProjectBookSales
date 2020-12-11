@@ -84,12 +84,18 @@ public class AddUser_Fragment extends Fragment {
                         newUserInterface.checkFieldBasic(etPassword.getText().toString(),"mot de passe",200, "no") &&
                         newUserInterface.checkFieldBasic(etAdresse.getText().toString(),"adresse",500, "no")
                     ){
-                    addUser(etFirstName.getText().toString(),
-                            etLastName.getText().toString(),
-                            etEmail.getText().toString(),
-                            etPhone.getText().toString(),
-                            etPassword.getText().toString(),
-                            etAdresse.getText().toString());
+                    if (etPhone.getText().length()==10){
+                        addUser(etFirstName.getText().toString(),
+                                etLastName.getText().toString(),
+                                etEmail.getText().toString(),
+                                etPhone.getText().toString(),
+                                etPassword.getText().toString(),
+                                etAdresse.getText().toString());
+                    }
+                    else{
+                        Toast.makeText(getActivity(),"Le numéro de téléphone doit contenir 10 chiffres", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
 
 

@@ -129,7 +129,13 @@ public class ViewProfile_Fragment extends Fragment {
                             if (validEmail) {
                                 if (etNewPassword.getText().toString().trim().equals(etNewPasswordConfirm.getText().toString().trim())) {
                                     if(!(etAdresse.getText().toString()=="")){
-                                        updateUser();
+                                        if(!(etPhone.getText().toString()=="") || etPhone.getText().length()==10){
+                                            if (!(etPhone.getText().toString() == "") || etPhone.getText().length() == 10) {
+                                                updateUser();
+                                            } else {
+                                                Toast.makeText(getActivity(), "Le numéro de téléphone est invalide", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
                                     }
                                     else{
                                         Toast.makeText(getActivity(),"Le champs adresse dois contenir une valeurs", Toast.LENGTH_SHORT).show();

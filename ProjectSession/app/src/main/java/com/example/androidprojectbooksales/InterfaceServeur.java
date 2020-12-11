@@ -121,7 +121,7 @@ public interface InterfaceServeur {
 
     @POST("Management/login.php")
     @FormUrlEncoded
-    Call<String> login(
+    Call<User> login(
             @Field("mobile") String mobile,
             @Field("email") String emailUser,
             @Field("password") String passwordUser
